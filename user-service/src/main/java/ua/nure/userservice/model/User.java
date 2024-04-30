@@ -2,11 +2,9 @@ package ua.nure.userservice.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.JdbcType;
-import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
+import ua.nure.userservice.model.role.Role;
 
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @Builder
@@ -16,9 +14,9 @@ import java.util.UUID;
 @Table(name = "_user")
 public class User {
 
-    @Id @GeneratedValue
-    @JdbcType(VarcharJdbcType.class)
-    private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String firstname;
     private String lastname;
     private String email;
