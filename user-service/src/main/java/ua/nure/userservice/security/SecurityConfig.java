@@ -27,7 +27,6 @@ public class SecurityConfig {
 
     private static final String[] UN_SECURED_URLs = {};
 
-
     private final JwtAuthenticationFilter authenticationFilter;
 
 

@@ -24,7 +24,7 @@ import java.util.function.Function;
 public class JwtService {
 
     @Value("${spring.jwt.secret}")
-    private  String JWT_SECRET;
+    private String JWT_SECRET;
 
     @Value("${spring.jwt.jwtExpirationInMs}")
     private int JWT_EXPIRATION_TIME_IN_MILLISECONDS;
@@ -43,16 +43,16 @@ public class JwtService {
                 .signWith(getSignedKey(), SignatureAlgorithm.HS256).compact();
     }
 
-    public String extractUsernameFromToken(String theToken){
-        return extractClaim(theToken, Claims ::getSubject);
+    public String extractUsernameFromToken(String token){
+        return extractClaim(token, Claims ::getSubject);
     }
-    public Date extractExpirationTimeFromToken(String theToken) {
-        return extractClaim(theToken, Claims :: getExpiration);
+    public Date extractExpirationTimeFromToken(String token) {
+        return extractClaim(token, Claims :: getExpiration);
     }
 
-    public Boolean validateToken(String theToken, UserDetails userDetails){
-        final String userName = extractUsernameFromToken(theToken);
-        return (userName.equals(userDetails.getUsername()) && !isTokenExpired(theToken));
+    public Boolean validateToken(String token, UserDetails userDetails){
+        final String userName = extractUsernameFromToken(token);
+        return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
@@ -68,8 +68,9 @@ public class JwtService {
                 .getBody();
 
     }
-    private boolean isTokenExpired(String theToken) {
-        return extractExpirationTimeFromToken(theToken).before(new Date());
+    private boolean isTokenExpired(String token) {
+        return extractExpirationTimeFromToken(token)
+                .before(new Date());
     }
     private Key getSignedKey(){
         byte[] keyByte = Decoders.BASE64.decode(JWT_SECRET);

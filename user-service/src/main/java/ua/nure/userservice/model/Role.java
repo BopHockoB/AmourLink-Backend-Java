@@ -1,5 +1,6 @@
-package ua.nure.userservice.jwt;
+package ua.nure.userservice.model;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +10,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class JwtAuthenticationRequest {
-    private String userName;
-    private String password;
+@Entity
+public class Role {
+    @Id
+    Integer roleId;
+    String roleName;
 }

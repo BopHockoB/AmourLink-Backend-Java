@@ -2,11 +2,11 @@ package ua.nure.userservice.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -16,13 +16,19 @@ import java.util.List;
 @Table(name = "_user")
 public class User {
 
-    @Id
-    @GeneratedValue
-    private Long id;
+    @Id @GeneratedValue
+    @JdbcType(VarcharJdbcType.class)
+    private UUID id;
     private String firstname;
     private String lastname;
     private String email;
     private String password;
-    private String roles;
+    @ManyToMany
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<Role> roles;
     //TODO create correct roles fields
 }

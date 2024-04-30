@@ -17,12 +17,6 @@ public class AmourLinkUserDetails implements UserDetails {
     private List<GrantedAuthority> authorities;
 
     public AmourLinkUserDetails(User user) {
-        userName = user.getEmail();
-        password = user.getPassword();
-        authorities = Arrays.stream(user.getRoles()
-                        .split(","))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
 
     }
 
