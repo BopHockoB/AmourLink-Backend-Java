@@ -2,10 +2,8 @@ package ua.nure.userservice.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import ua.nure.userservice.model.role.Role;
 
-import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -17,12 +15,18 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String firstname;
     private String lastname;
     private String email;
     private String password;
-    private String roles;
+    @ManyToMany
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<Role> roles;
     //TODO create correct roles fields
 }
