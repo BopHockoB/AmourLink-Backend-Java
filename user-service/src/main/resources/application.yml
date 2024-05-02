@@ -1,0 +1,31 @@
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+server:
+  port: 8090
+
+spring:
+  application:
+    name: user-service
+  config:
+    import: optional:configserver:http://localhost:8888
+
+  jwt:
+    jwtExpirationInMs: 1800000
+    secret: 36763979244226452948404D635164546A576D5A7134D43777217A25432A462D
+
+  datasource:
+    url: jdbc:mysql://amourlink-user-db.mysql.database.azure.com:3306/user_service?useSSL=true
+    username: AmourLinkRoot
+    password: 1$HxIA26nn2n
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+

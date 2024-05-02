@@ -1,4 +1,4 @@
-package ua.nure.userservice.jwt;
+package ua.nure.userservice.security.jwt;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
