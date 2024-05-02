@@ -12,12 +12,16 @@ import java.util.stream.Collectors;
 
 public class AmourLinkUserDetails implements UserDetails {
 
-    private String userName;
+    private String email;
     private String password;
     private List<GrantedAuthority> authorities;
 
     public AmourLinkUserDetails(User user) {
-
+        email = user.getEmail();
+        password = user.getPassword();
+        authorities = user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -32,7 +36,7 @@ public class AmourLinkUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return email;
     }
 
     @Override

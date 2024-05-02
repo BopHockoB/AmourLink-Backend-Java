@@ -13,12 +13,12 @@ import ua.nure.userservice.service.impl.UserService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("api/user-service/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/all")
+    @GetMapping("/get-all")
     public ResponseEntity<List<User>> getAllUsers(){
         return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.FOUND);
     }

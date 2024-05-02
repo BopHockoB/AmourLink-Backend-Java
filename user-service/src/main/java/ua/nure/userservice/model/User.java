@@ -16,11 +16,14 @@ import java.util.UUID;
 @Table(name = "_user")
 public class User {
 
+//    @Id
+//    @GeneratedValue(generator = "UUID")
+//    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+//    @Column(columnDefinition = "VARCHAR(36)", updatable = false, nullable = false)
+
     @Id @GeneratedValue
     @JdbcType(VarcharJdbcType.class)
-    private UUID id;
-    private String firstname;
-    private String lastname;
+    private UUID userId;
     private String email;
     private String password;
     @ManyToMany
@@ -30,5 +33,4 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private List<Role> roles;
-    //TODO create correct roles fields
 }

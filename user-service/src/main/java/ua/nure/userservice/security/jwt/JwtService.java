@@ -1,4 +1,4 @@
-package ua.nure.userservice.jwt;
+package ua.nure.userservice.security.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

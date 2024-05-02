@@ -5,6 +5,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ua.nure.userservice.model.Profile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +34,22 @@ public class ExceptionHandlerDemo {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(UserAlreadyExistsException.class)
     public Map<String, String> userAlreadyExists(UserAlreadyExistsException ex){
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return error;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ProfileAlreadyExistsException.class)
+    public Map<String, String> profileAlreadyExists(ProfileAlreadyExistsException ex){
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return error;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ProfileNotFoundException.class)
+    public Map<String, String> profileNotFound(ProfileNotFoundException ex){
         Map<String, String> error = new HashMap<>();
         error.put("error", ex.getMessage());
         return error;
