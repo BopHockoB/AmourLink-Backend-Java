@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
+
 
 @Slf4j
 @Service
@@ -30,6 +30,7 @@ public class ProfileService implements IProfileService {
     private final MediaServiceClient mediaServiceClient;
     private final ProfileRepository profileRepository;
     private final UserService userService;
+    private final PictureService pictureService;
 
     @Override
     public Profile createProfile(Profile profile) throws ProfileAlreadyExistsException {
@@ -100,18 +101,23 @@ public class ProfileService implements IProfileService {
                 .pictureUrl(imageUrl)
                 .timeAdded(new Date(System.currentTimeMillis()))
                 .position(position)
+                .profile(profile)
                 .build();
 
         // Remove the existing picture at the same position if exists
-        List<Picture> updatedPictures = profile.getPictures().stream()
-                .filter(p -> !p.getPosition().equals(position))
-                .collect(Collectors.toList());
+        Picture pictureToDelete = profile.getPictures().stream()
+                .filter(p -> p.getPosition().equals(position))
+                .findFirst().orElse(null);
 
-        updatedPictures.add(picture);
-        profile.setPictures(updatedPictures);
+        if (pictureToDelete != null) {
+
+            pictureService.deletePicture(pictureToDelete.getPictureId());
+            mediaServiceClient.deleteImage(pictureToDelete.getPictureUrl());
+        }
+        pictureService.createPicture(picture);
         log.info("Added new picture {} to position {}", imageUrl, picture.getPosition());
 
-        updateProfile(profile);
+
         return picture;
     }
 

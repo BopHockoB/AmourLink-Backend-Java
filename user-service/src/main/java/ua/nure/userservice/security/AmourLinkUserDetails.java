@@ -23,7 +23,7 @@ public class AmourLinkUserDetails implements UserDetails {
 
         if (!user.getRoles().isEmpty()) {
             authorities = user.getRoles().stream()
-                    .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
+                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRoleName()))
                     .collect(Collectors.toList());
         }
         else {
