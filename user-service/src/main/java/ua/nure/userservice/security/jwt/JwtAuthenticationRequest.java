@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JwtAuthenticationRequest {
-    private String userName;
+    private String username;
     private String password;
 }

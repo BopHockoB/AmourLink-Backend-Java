@@ -31,13 +31,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader("Authorization");
         String token = null;
-        String userName = null;
+        String username = null;
         if (authHeader != null && authHeader.startsWith("Bearer ")){
             token = authHeader.substring(7);
-            userName = jwtService.extractUsernameFromToken(token);
+            username = jwtService.extractUsernameFromToken(token);
         }
-        if (userName != null & SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = amourLinkUserDetailsService.loadUserByUsername(userName);
+        if (username != null & SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = amourLinkUserDetailsService.loadUserByUsername(username);
             if(jwtService.validateToken(token, userDetails)) {
                 var authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

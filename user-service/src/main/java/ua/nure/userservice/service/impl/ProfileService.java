@@ -5,32 +5,40 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-//import ua.nure.userservice.client.MediaServiceClient;
+import org.springframework.web.multipart.MultipartFile;
+import ua.nure.userservice.client.MediaServiceClient;
 import ua.nure.userservice.exception.ProfileAlreadyExistsException;
 import ua.nure.userservice.exception.ProfileNotFoundException;
 import ua.nure.userservice.model.Picture;
 import ua.nure.userservice.model.Profile;
 import ua.nure.userservice.model.User;
 import ua.nure.userservice.repository.ProfileRepository;
-import ua.nure.userservice.request.UploadImageRequest;
 import ua.nure.userservice.service.IProfileService;
 import ua.nure.userservice.util.SecurityUtil;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProfileService implements IProfileService {
 
-//    private final MediaServiceClient mediaServiceClient;
+    private final MediaServiceClient mediaServiceClient;
     private final ProfileRepository profileRepository;
     private final UserService userService;
 
     @Override
     public Profile createProfile(Profile profile) throws ProfileAlreadyExistsException {
-        Optional<Profile> retrievedUser = profileRepository.findByUserUserId(profile.getUser().getUserId());
-        if (retrievedUser.isPresent()){
+        UserDetails userDetails = SecurityUtil.getAuthenticatedUser();
+        User user = userService.findUser(userDetails.getUsername());
+        profile.setUser(user);
+
+        Optional<Profile> retrievedProfile = profileRepository.findByUserUserId(user.getUserId());
+        if (retrievedProfile.isPresent()){
             log.error("A user's {} profile already exists", profile.getUser().getUserId());
             throw new ProfileAlreadyExistsException("A user's " + profile.getUser().getUserId() +" profile already exists");
         }
@@ -76,33 +84,36 @@ public class ProfileService implements IProfileService {
         return profileRepository.findAll();
     }
 
-    public Picture updateImage(UploadImageRequest uploadImageRequest) {
+    @Override
+    public Picture updateImage(int position, MultipartFile image) {
         UserDetails userDetails = SecurityUtil.getAuthenticatedUser();
-
         if (userDetails == null)
             throw new SecurityException("User not authenticated");
 
         User user = userService.findUser(userDetails.getUsername());
-
-        Profile profile = findProfile(user.getUserId());
+        Profile profile = findProfileByUserId(user.getUserId());
         log.info("Updating user's profile {} images", user.getUserId());
 
-        String imageUrl = null; //mediaServiceClient.uploadImage(uploadImageRequest.getImage());
+
+        String imageUrl = mediaServiceClient.uploadImage(image);
         Picture picture = Picture.builder()
                 .pictureUrl(imageUrl)
                 .timeAdded(new Date(System.currentTimeMillis()))
-                .position(uploadImageRequest.getPosition())
+                .position(position)
                 .build();
 
-        profile.setPictures(profile.getPictures().stream()
-                .filter(p -> p.getPosition().equals(uploadImageRequest.getPosition()))
-                .toList());
+        // Remove the existing picture at the same position if exists
+        List<Picture> updatedPictures = profile.getPictures().stream()
+                .filter(p -> !p.getPosition().equals(position))
+                .collect(Collectors.toList());
 
-        profile.getPictures().add(picture);
+        updatedPictures.add(picture);
+        profile.setPictures(updatedPictures);
         log.info("Added new picture {} to position {}", imageUrl, picture.getPosition());
 
         updateProfile(profile);
         return picture;
     }
+
 
 }

@@ -7,6 +7,7 @@ import ua.nure.userservice.model.Profile;
 import ua.nure.userservice.model.User;
 import ua.nure.userservice.request.UploadImageRequest;
 
+import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,6 +20,6 @@ public interface IProfileService {
     Profile findProfile(UUID id);
     Profile findProfileByUserId(UUID id);
     List<Profile> findAllProfile();
-    Picture updateImage(UploadImageRequest request);
+    Picture updateImage(int position, MultipartFile image);
 }
 

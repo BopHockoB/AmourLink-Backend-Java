@@ -13,7 +13,10 @@ spring:
     name: user-service
   config:
     import: optional:configserver:http://localhost:8888
-
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 2MB
   jwt:
     jwtExpirationInMs: 1800000
     secret: 36763979244226452948404D635164546A576D5A7134D43777217A25432A462D
@@ -26,6 +29,10 @@ spring:
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
+
+application:
+  config:
+    media-service-url: http://localhost:8070/api/media-service/images
 
