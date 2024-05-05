@@ -1,5 +1,6 @@
 package ua.nure.userservice.security;
 
+import jakarta.servlet.FilterChain;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -21,16 +23,27 @@ import ua.nure.userservice.security.jwt.JwtAuthenticationFilter;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+//@EnableMethodSecurity
 public class SecurityConfig {
 
     private static final String[] SECURED_URLs = {};
 
-    private static final String[] UN_SECURED_URLs = {"/authenticate/**"};
+    private static final String[] UN_SECURED_URLs = {
+            "/authenticate/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/swagger-resources/**",
+            "/swagger-resources",
+            "/v2/api-docs",
+            "/v3/api-docs",
+            "/v3/api-docs/**",
+            "/webjars/**",
+            "/configuration/ui",
+            "/configuration/security"};
 
     private final JwtAuthenticationFilter authenticationFilter;
-
-
     private final AmourLinkUserDetailsService amourLinkUserDetailsService;
+
 
     @Bean
     public PasswordEncoder passwordEncoder(){

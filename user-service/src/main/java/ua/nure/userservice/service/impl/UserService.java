@@ -30,11 +30,11 @@ public class UserService implements IUserService {
     public User createUser(User user) throws UserAlreadyExistsException {
         Optional<User> retrievedUser = userRepository.findByEmail(user.getEmail());
         if (retrievedUser.isPresent()) {
-            log.info("User {} already exists", user.getEmail());
+            log.warn("User {} already exists", user.getEmail());
             throw new UserAlreadyExistsException("A user with email" + user.getEmail() + " already exists");
         }
         if (!passwordIsValid(user.getPassword())){
-            log.info("User {} password is not valid", user.getEmail());
+            log.warn("User {} password is not valid", user.getEmail());
             throw new InvalidPasswordException("User " + user.getEmail() + " password is not valid");
         }
         //TODO add validation handling mechanism

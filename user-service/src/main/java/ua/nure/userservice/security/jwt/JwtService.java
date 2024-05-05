@@ -29,15 +29,15 @@ public class JwtService {
     @Value("${spring.jwt.jwtExpirationInMs}")
     private int JWT_EXPIRATION_TIME_IN_MILLISECONDS;
 
-    public String generateToken(String userName){
+    public String generateToken(String username){
         Map<String, Object> claims = new HashMap<>();
-        return tokenCreator(claims, userName);
+        return tokenCreator(claims, username);
     }
 
-    public String tokenCreator(Map<String, Object> claims, String userName){
+    public String tokenCreator(Map<String, Object> claims, String username){
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(userName)
+                .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis()+JWT_EXPIRATION_TIME_IN_MILLISECONDS))
                 .signWith(getSignedKey(), SignatureAlgorithm.HS256).compact();
