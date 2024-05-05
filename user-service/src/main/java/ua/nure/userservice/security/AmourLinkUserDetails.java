@@ -5,6 +5,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ua.nure.userservice.model.User;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -19,9 +20,15 @@ public class AmourLinkUserDetails implements UserDetails {
     public AmourLinkUserDetails(User user) {
         email = user.getEmail();
         password = user.getPassword();
-        authorities = user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
-                .collect(Collectors.toList());
+
+        if (!user.getRoles().isEmpty()) {
+            authorities = user.getRoles().stream()
+                    .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
+                    .collect(Collectors.toList());
+        }
+        else {
+            authorities = new ArrayList<>();
+        }
     }
 
     @Override

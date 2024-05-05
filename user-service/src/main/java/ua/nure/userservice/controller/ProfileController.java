@@ -2,13 +2,16 @@ package ua.nure.userservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ua.nure.userservice.exception.ProfileAlreadyExistsException;
 import ua.nure.userservice.exception.UserNotFoundException;
 import ua.nure.userservice.model.Profile;
 import ua.nure.userservice.request.UploadImageRequest;
 import ua.nure.userservice.service.IProfileService;
+
 
 import java.util.List;
 import java.util.UUID;
@@ -53,9 +56,12 @@ public class ProfileController {
         return ResponseEntity.ok(profileService.updateProfile(profile));
     }
 
-    @PostMapping("/update-image")
-    public ResponseEntity<?> updateImages(@RequestBody UploadImageRequest request){
-        profileService.updateImage(request);
+
+    @PostMapping(
+            path ="/update-image",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> updateImages(@RequestParam("file") MultipartFile file, @RequestParam("position") int position){
+        profileService.updateImage(position, file);
         return ResponseEntity.ok().build();
     }
 }

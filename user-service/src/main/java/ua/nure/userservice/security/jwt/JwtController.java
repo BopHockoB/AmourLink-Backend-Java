@@ -19,9 +19,9 @@ public class JwtController {
     @PostMapping
     public String getTokenForAuthenticatedUser(@RequestBody JwtAuthenticationRequest authRequest){
         Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword()));
+                .authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
         if (authentication.isAuthenticated()){
-            return jwtService.generateToken(authRequest.getUserName());
+            return jwtService.generateToken(authRequest.getUsername());
         }
         else {
             throw new RuntimeException("Invalid user credentials");

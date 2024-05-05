@@ -1,4 +1,4 @@
-package ua.nure.picturemodule.config;
+package ua.nure.mediamodule.config;
 
 import com.cloudinary.Cloudinary;
 import lombok.extern.slf4j.Slf4j;

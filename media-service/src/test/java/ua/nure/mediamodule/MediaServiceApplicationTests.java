@@ -1,4 +1,4 @@
-package ua.nure.picturemodule;
+package ua.nure.mediamodule;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

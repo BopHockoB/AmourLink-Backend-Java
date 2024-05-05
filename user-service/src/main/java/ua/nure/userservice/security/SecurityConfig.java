@@ -25,7 +25,7 @@ public class SecurityConfig {
 
     private static final String[] SECURED_URLs = {};
 
-    private static final String[] UN_SECURED_URLs = {};
+    private static final String[] UN_SECURED_URLs = {"/authenticate/**"};
 
     private final JwtAuthenticationFilter authenticationFilter;
 
@@ -50,9 +50,8 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers(UN_SECURED_URLs).permitAll()
-//                        .anyRequest().authenticated()
-                        .anyRequest().permitAll()
+                        .requestMatchers(UN_SECURED_URLs).permitAll()
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -1,4 +1,4 @@
-package ua.nure.picturemodule;
+package ua.nure.mediamodule;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

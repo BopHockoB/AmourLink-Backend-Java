@@ -13,6 +13,7 @@ import ua.nure.userservice.model.User;
 import ua.nure.userservice.repository.UserRepository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,8 +38,6 @@ public class UserServiceTest {
     @Test
     void testCreateUserSuccess() {
         User newUser = User.builder()
-                .firstname("John")
-                .lastname("Doe")
                 .email("john.doe@example.com")
                 .password("password123")
                 .build();
@@ -55,8 +54,6 @@ public class UserServiceTest {
     @Test
     void testCreateUserFailure() {
         User newUser = User.builder()
-                .firstname("John")
-                .lastname("Doe")
                 .email("john.doe@example.com")
                 .password("password123")
                 .build();
@@ -68,8 +65,6 @@ public class UserServiceTest {
     @Test
     void testUpdateUser() {
         User existingUser = User.builder()
-                .firstname("Jane")
-                .lastname("Doe")
                 .email("jane.doe@example.com")
                 .password("password123")
                 .build();
@@ -94,10 +89,8 @@ public class UserServiceTest {
 
     @Test
     void testFindUserByIdSuccess() {
-        long userId = 1;
+        UUID userId = UUID.randomUUID();
         User foundUser = User.builder()
-                .firstname("John")
-                .lastname("Doe")
                 .email("john.doe@example.com")
                 .password("password123")
                 .build();
@@ -111,7 +104,7 @@ public class UserServiceTest {
 
     @Test
     void testFindUserByIdFailure() {
-        long userId = 1;
+        UUID userId = UUID.randomUUID();
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, () -> userService.findUser(userId));
@@ -121,8 +114,6 @@ public class UserServiceTest {
     void testFindUserByEmailSuccess() {
         String email = "jane.doe@example.com";
         User foundUser = User.builder()
-                .firstname("Jane")
-                .lastname("Doe")
                 .email("jane.doe@example.com")
                 .password("password123")
                 .build();
@@ -131,7 +122,7 @@ public class UserServiceTest {
         User result = userService.findUser(email);
 
         assertNotNull(result);
-        assertEquals("Jane", result.getFirstname());
+        assertEquals(email, result.getEmail());
     }
 
     @Test

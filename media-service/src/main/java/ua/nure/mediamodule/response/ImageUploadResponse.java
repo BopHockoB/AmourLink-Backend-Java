@@ -1,10 +1,9 @@
-package ua.nure.picturemodule.Response;
+package ua.nure.mediamodule.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.cloud.client.loadbalancer.Response;
 
 import java.util.Date;
 

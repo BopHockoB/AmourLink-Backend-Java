@@ -1,4 +1,4 @@
-package ua.nure.picturemodule.service.impl;
+package ua.nure.mediamodule.service.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
@@ -12,11 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class CloudinaryServiceIntegrationTest {
@@ -63,5 +61,30 @@ public class CloudinaryServiceIntegrationTest {
 
         // Assert that the fetched URL matches the uploaded URL
         assertEquals(uploadedImageUrl, imageDetails.get("secure_url"));
+    }
+
+    @Test
+    public void testDeleteImage() throws IOException {
+        // Skip this test if no image was uploaded
+        if (uploadedImageUrl == null) {
+            return;
+        }
+
+        // Get the public ID of the uploaded image
+        String publicId = cloudinaryService.retrievePublicId(uploadedImageUrl);
+        // Delete the image
+        cloudinaryService.deleteImage(uploadedImageUrl);
+
+        // Attempt to fetch the image details from Cloudinary
+        Map<String, Object> deletedImageDetails;
+        try {
+            deletedImageDetails = cloudinary.api().resource(publicId, ObjectUtils.emptyMap());
+        } catch (Exception e) {
+            // If the image is successfully deleted, attempting to fetch its details should throw an exception
+            deletedImageDetails = null;
+        }
+
+        // Assert that the image details cannot be fetched (indicating deletion)
+        assertNull(deletedImageDetails);
     }
 }
