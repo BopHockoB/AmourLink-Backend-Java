@@ -19,7 +19,7 @@ public interface MediaServiceClient {
     String uploadImage(@RequestPart("file") MultipartFile file);
 
     @DeleteMapping("/delete-image")
-    String deleteImage(@RequestParam("imageId") String imageId);
+    String deleteImage(@RequestParam("imageUrl") String imageUrl);
 }
 
 

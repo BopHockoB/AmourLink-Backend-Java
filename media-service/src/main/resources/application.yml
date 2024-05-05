@@ -1,25 +1,5 @@
-eureka:
-  instance:
-    hostname: localhost
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-
-server:
-  port: 8070
-
 spring:
   application:
     name: media-service
   config:
     import: optional:configserver:http://localhost:8888
-  servlet:
-    multipart:
-      enabled: true
-      max-file-size: 2MB
-      max-request-size: 2MB
-cloudinary:
-  api-key: 265424896617777
-  api-secret: jYYqM78gFmDhCqISwFH-hPqsuvA
-  cloud-name: dreeikt1w
-
