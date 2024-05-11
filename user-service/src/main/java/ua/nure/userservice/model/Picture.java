@@ -21,7 +21,6 @@ public class Picture {
 
     @Id
     @GeneratedValue
-    @JdbcType(VarcharJdbcType.class)
     private UUID pictureId;
     private String pictureUrl;
     private Date timeAdded;

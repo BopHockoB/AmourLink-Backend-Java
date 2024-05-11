@@ -1,15 +1,9 @@
-#spring:
-#  application:
-#    name: media-service
-#  config:
-#    import: optional:configserver:http://localhost:8888
-
 server:
   port: 8761
 
 eureka:
   instance:
-    hostname: localhost
+    hostname: config-server
   client:
     register-with-eureka: false
     fetch-registry: false
@@ -19,6 +13,3 @@ eureka:
 spring:
   application:
     name: discovery
-  cloud:
-    config:
-      enabled: false

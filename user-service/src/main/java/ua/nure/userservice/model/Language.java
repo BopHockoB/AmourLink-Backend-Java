@@ -21,7 +21,6 @@ public class Language {
 
     @Id
     @GeneratedValue
-    @JdbcType(VarcharJdbcType.class)
     private UUID language_id;
     private String language_name;
 }

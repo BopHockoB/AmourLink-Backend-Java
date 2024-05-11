@@ -21,7 +21,6 @@ public class Music {
 
     @Id
     @GeneratedValue
-    @JdbcType(VarcharJdbcType.class)
     private UUID music_id;
     private String spotifyId;
     private String title;
