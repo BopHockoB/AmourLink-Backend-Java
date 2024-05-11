@@ -19,8 +19,8 @@ import java.util.UUID;
 @Table(name = "user_details")
 public class Profile {
 
-    @Id @GeneratedValue
-    @JdbcType(VarcharJdbcType.class)
+    @Id
+    @GeneratedValue
     @Column(name = "user_details_id")
     private UUID profileId;
     private Integer age;

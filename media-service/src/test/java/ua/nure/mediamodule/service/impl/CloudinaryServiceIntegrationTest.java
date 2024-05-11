@@ -35,7 +35,7 @@ public class CloudinaryServiceIntegrationTest {
     @Test
     public void testUploadImage() throws IOException {
         // Create a temporary file to upload
-        String path = "C:\\Users\\asus\\IdeaProjects\\AmourLink-BackEnd-Java\\media-service\\src\\test\\resources\\images\\1.png";
+        String path = "src\\test\\resources\\images\\1.png";
         File file = new File(path);
         MultipartFile multipartFile = new MockMultipartFile("file", "1.png", "image/png", Files.readAllBytes(file.toPath()));
 

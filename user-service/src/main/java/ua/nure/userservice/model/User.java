@@ -15,14 +15,8 @@ import java.util.UUID;
 @Entity
 @Table(name = "_user")
 public class User {
-
-//    @Id
-//    @GeneratedValue(generator = "UUID")
-//    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-//    @Column(columnDefinition = "VARCHAR(36)", updatable = false, nullable = false)
-
-    @Id @GeneratedValue
-    @JdbcType(VarcharJdbcType.class)
+    @Id
+    @GeneratedValue
     private UUID userId;
     private String email;
     private String password;

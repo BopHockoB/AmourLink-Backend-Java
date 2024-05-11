@@ -21,7 +21,6 @@ import java.util.UUID;
 public class Degree {
     @Id
     @GeneratedValue
-    @JdbcType(VarcharJdbcType.class)
     private UUID degreeId;
     private String degreeType;
     private String degreeName;

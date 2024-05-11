@@ -21,7 +21,6 @@ public class Hobby {
 
     @Id
     @GeneratedValue
-    @JdbcType(VarcharJdbcType.class)
     private UUID hobby_id;
     private String hobby_name;
 }
