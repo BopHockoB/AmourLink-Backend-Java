@@ -1,19 +1,17 @@
 package ua.nure.userservice.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ua.nure.userservice.exception.ProfileAlreadyExistsException;
-import ua.nure.userservice.exception.UserNotFoundException;
 import ua.nure.userservice.model.Profile;
-import ua.nure.userservice.request.UploadImageRequest;
+import ua.nure.userservice.responce.ResponseBody;
 import ua.nure.userservice.service.IProfileService;
 
 
-import java.util.List;
 import java.util.UUID;
 
 
@@ -25,25 +23,21 @@ public class ProfileController {
 
 
     @GetMapping("/get-all")
-    public ResponseEntity<List<Profile>> getAllUsers(){
-        return new ResponseEntity<>(profileService.findAllProfile(), HttpStatus.FOUND);
+    public ResponseEntity<ResponseBody> getAllUsers(){
+
+        ResponseBody responseBody = new ResponseBody(profileService.findAllProfile());
+        return new ResponseEntity<>(responseBody, HttpStatus.FOUND);
     }
     @PostMapping("/add")
-    public ResponseEntity<Profile> add(@RequestBody Profile profile){
-        try {
-            return ResponseEntity.ok(profileService.createProfile(profile));
-        } catch (ProfileAlreadyExistsException e) {
-            throw new RuntimeException(e);
-        }
+    public ResponseEntity<ResponseBody> add(@RequestBody @Valid Profile profile){
+        ResponseBody responseBody = new ResponseBody(profileService.createProfile(profile));
+        return ResponseEntity.ok(responseBody);
     }
 
     @GetMapping("/{userId}")
-    public Profile getByUserId(@PathVariable("userId") UUID userId){
-        try {
-            return profileService.findProfileByUserId(userId);
-        } catch (UserNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+    public ResponseEntity<ResponseBody> getByUserId(@PathVariable("userId") UUID userId){
+        ResponseBody responseBody = new ResponseBody(profileService.findProfileByUserId(userId));
+        return ResponseEntity.ok(responseBody);
     }
 
     @DeleteMapping("/{userId}")
@@ -52,16 +46,22 @@ public class ProfileController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Profile> update(@RequestBody Profile profile){
-        return ResponseEntity.ok(profileService.updateProfile(profile));
+    public ResponseEntity<ResponseBody> update(@RequestBody @Valid Profile profile){
+        ResponseBody responseBody = new ResponseBody(profileService.updateProfile(profile));
+        return ResponseEntity.ok(responseBody);
     }
 
 
     @PostMapping(
-            path ="/update-image",
+            path ="/add-image",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> updateImages(@RequestParam("file") MultipartFile file, @RequestParam("position") int position){
-        profileService.updateImage(position, file);
-        return ResponseEntity.ok().build();
+    public void addImages(@RequestParam("file") MultipartFile file, @RequestParam("position") int position){
+        profileService.addImageToProfile(position, file);
+    }
+
+    @PostMapping("/add-tag")
+    public ResponseEntity<ResponseBody> addTag(@RequestBody String tag){
+        ResponseBody responseBody = new ResponseBody(profileService.addTagToProfile(tag));
+        return ResponseEntity.ok(responseBody);
     }
 }

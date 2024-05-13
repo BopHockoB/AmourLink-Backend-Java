@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ua.nure.userservice.exception.InvalidPasswordException;
 import ua.nure.userservice.exception.UserAlreadyExistsException;
 import ua.nure.userservice.exception.UserNotFoundException;
 import ua.nure.userservice.model.User;
@@ -16,8 +15,6 @@ import ua.nure.userservice.service.IUserService;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -33,24 +30,11 @@ public class UserService implements IUserService {
             log.warn("User {} already exists", user.getEmail());
             throw new UserAlreadyExistsException("A user with email" + user.getEmail() + " already exists");
         }
-        if (!passwordIsValid(user.getPassword())){
-            log.warn("User {} password is not valid", user.getEmail());
-            throw new InvalidPasswordException("User " + user.getEmail() + " password is not valid");
-        }
-        //TODO add validation handling mechanism
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
-    private boolean passwordIsValid(String password) {
-        String regex = "^[a-zA-Z0-9!@#$%^&*()-_=+{};:,.<>?`~]*$";
-
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(password);
-
-        return matcher.matches();
-    }
 
     @Override
     public User updateUser(User user) {

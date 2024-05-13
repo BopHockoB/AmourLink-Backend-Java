@@ -1,6 +1,7 @@
 package ua.nure.userservice.controller;
 
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.nure.userservice.exception.UserAlreadyExistsException;
 import ua.nure.userservice.exception.UserNotFoundException;
 import ua.nure.userservice.model.User;
+import ua.nure.userservice.responce.ResponseBody;
 import ua.nure.userservice.service.impl.UserService;
 
 import java.util.List;
@@ -19,25 +21,20 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/get-all")
-    public ResponseEntity<List<User>> getAllUsers(){
-        return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.FOUND);
+    public ResponseEntity<ResponseBody> getAllUsers(){
+        ResponseBody responseBody = new ResponseBody(userService.findAllUsers());
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
     @PostMapping("/add")
-    public ResponseEntity<User> add(@RequestBody User user){
-        try {
-            return ResponseEntity.ok(userService.createUser(user));
-        } catch (UserAlreadyExistsException e) {
-            throw new RuntimeException(e);
-        }
+    public ResponseEntity<ResponseBody> add(@RequestBody @Valid User user) {
+        ResponseBody responseBody = new ResponseBody(userService.createUser(user));
+        return ResponseEntity.ok(responseBody);
     }
 
     @GetMapping("/{email}")
-    public User getByEmail(@PathVariable("email") String email){
-        try {
-            return  userService.findUser(email);
-        } catch (UserNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+    public ResponseEntity<ResponseBody> getByEmail(@PathVariable("email") String email){
+        ResponseBody responseBody = new ResponseBody(userService.findUser(email));
+        return ResponseEntity.ok(responseBody);
     }
 
     @DeleteMapping("/{email}")
@@ -46,8 +43,9 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<User> update(@RequestBody User user){
-        return ResponseEntity.ok(userService.updateUser(user));
+    public ResponseEntity<ResponseBody> update(@RequestBody @Valid User user){
+        ResponseBody responseBody = new ResponseBody(userService.updateUser(user));
+        return ResponseEntity.ok(responseBody);
     }
 
 }

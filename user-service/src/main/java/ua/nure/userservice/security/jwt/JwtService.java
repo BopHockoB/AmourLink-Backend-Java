@@ -1,27 +1,33 @@
 package ua.nure.userservice.security.jwt;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import ua.nure.userservice.model.Role;
+import ua.nure.userservice.model.User;
+import ua.nure.userservice.service.impl.UserService;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
-
+@Data
 @Service
-@AllArgsConstructor
 @NoArgsConstructor
 public class JwtService {
+
+    @Autowired
+    private UserService userService;
 
     @Value("${spring.jwt.secret}")
     private String JWT_SECRET;
@@ -29,17 +35,35 @@ public class JwtService {
     @Value("${spring.jwt.jwtExpirationInMs}")
     private int JWT_EXPIRATION_TIME_IN_MILLISECONDS;
 
-    public String generateToken(String username){
-        Map<String, Object> claims = new HashMap<>();
-        return tokenCreator(claims, username);
+    public JwtService(int JWT_EXPIRATION_TIME_IN_MILLISECONDS, String JWT_SECRET) {
+        this.JWT_EXPIRATION_TIME_IN_MILLISECONDS = JWT_EXPIRATION_TIME_IN_MILLISECONDS;
+        this.JWT_SECRET = JWT_SECRET;
     }
 
-    public String tokenCreator(Map<String, Object> claims, String username){
+    public JwtService(UserService userService,
+                      @Value("${spring.jwt.secret}") String JWT_SECRET,
+                      @Value("${spring.jwt.jwtExpirationInMs}") int JWT_EXPIRATION_TIME_IN_MILLISECONDS) {
+        this.userService = userService;
+        this.JWT_SECRET = JWT_SECRET;
+        this.JWT_EXPIRATION_TIME_IN_MILLISECONDS = JWT_EXPIRATION_TIME_IN_MILLISECONDS;
+    }
+
+    public String generateToken(String username){
+        User user = userService.findUser(username);
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("roles", user.getRoles());
+
+        return tokenCreator(claims, user);
+    }
+
+    public String tokenCreator(Map<String, Object> claims, User user){
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(username)
+                .setId(user.getUserId().toString())
+                .setSubject(user.getEmail())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+JWT_EXPIRATION_TIME_IN_MILLISECONDS))
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION_TIME_IN_MILLISECONDS))
                 .signWith(getSignedKey(), SignatureAlgorithm.HS256).compact();
     }
 

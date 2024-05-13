@@ -11,8 +11,10 @@ import ua.nure.userservice.exception.ProfileAlreadyExistsException;
 import ua.nure.userservice.exception.ProfileNotFoundException;
 import ua.nure.userservice.model.Picture;
 import ua.nure.userservice.model.Profile;
+import ua.nure.userservice.model.Tag;
 import ua.nure.userservice.model.User;
 import ua.nure.userservice.repository.ProfileRepository;
+import ua.nure.userservice.repository.TagRepository;
 import ua.nure.userservice.service.IProfileService;
 import ua.nure.userservice.util.SecurityUtil;
 
@@ -31,12 +33,14 @@ public class ProfileService implements IProfileService {
     private final ProfileRepository profileRepository;
     private final UserService userService;
     private final PictureService pictureService;
+    private final TagRepository tagRepository;
 
     @Override
     public Profile createProfile(Profile profile) throws ProfileAlreadyExistsException {
         UserDetails userDetails = SecurityUtil.getAuthenticatedUser();
         User user = userService.findUser(userDetails.getUsername());
         profile.setUser(user);
+        profile.setProfileId(user.getUserId());
 
         Optional<Profile> retrievedProfile = profileRepository.findByUserUserId(user.getUserId());
         if (retrievedProfile.isPresent()){
@@ -86,7 +90,7 @@ public class ProfileService implements IProfileService {
     }
 
     @Override
-    public Picture updateImage(int position, MultipartFile image) {
+    public Picture addImageToProfile(int position, MultipartFile image) {
         UserDetails userDetails = SecurityUtil.getAuthenticatedUser();
         if (userDetails == null)
             throw new SecurityException("User not authenticated");
@@ -121,5 +125,24 @@ public class ProfileService implements IProfileService {
         return picture;
     }
 
+    @Override
+    @Transactional
+    public Profile addTagToProfile(String tagName) {
+
+        UserDetails userDetails = SecurityUtil.getAuthenticatedUser();
+        User user = userService.findUser(userDetails.getUsername());
+
+        Profile profile = findProfile(user.getUserId());
+
+        Tag tag = tagRepository.findByTagName(tagName)
+                .orElseGet(() -> {
+                    Tag newTag = new Tag();
+                    newTag.setTagName(tagName);
+                    return tagRepository.save(newTag);
+                });
+
+        profile.getTags().add(tag);
+        return profileRepository.save(profile);
+    }
 
 }

@@ -43,18 +43,14 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter authenticationFilter;
     private final AmourLinkUserDetailsService amourLinkUserDetailsService;
+    private final PasswordEncoder passwordEncoder;
 
-
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
         var authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(amourLinkUserDetailsService);
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        authenticationProvider.setPasswordEncoder(passwordEncoder);
         return authenticationProvider;
     }
 
