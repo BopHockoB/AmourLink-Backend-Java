@@ -35,9 +35,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database: mysql
-    hibernate:
-      ddl-auto: update
     show-sql: true
+
+  kafka:
+    bootstrap-servers: kafka:29092
 
 application:
   config:
