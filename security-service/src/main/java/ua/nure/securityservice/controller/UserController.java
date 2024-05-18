@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 import ua.nure.securityservice.model.User;
-import ua.nure.securityservice.model.UserDTO;
+import ua.nure.securityservice.model.dto.UserDTO;
 import ua.nure.securityservice.responce.ResponseBody;
 import ua.nure.securityservice.service.IUserService;
 
