@@ -17,7 +17,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PictureService implements IPictureService {
 
-
     private final PictureRepository pictureRepository;
 
     public Picture createPicture(Picture picture) {

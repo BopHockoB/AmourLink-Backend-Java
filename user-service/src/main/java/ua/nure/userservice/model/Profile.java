@@ -1,13 +1,15 @@
 package ua.nure.userservice.model;
 
-import com.netflix.servo.tag.Tags;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.mapping.Set;
+
+import org.locationtech.jts.geom.Point;
+import ua.nure.userservice.model.dto.ProfileDTO;
 
 
 import java.util.List;
@@ -45,9 +47,6 @@ public class Profile {
     @Min(value = 110, message = "Height must be at least 110 cm")
     private Integer height;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private User user;
     private String occupation;
     private String nationality;
 
@@ -60,27 +59,24 @@ public class Profile {
     @NotNull(message = "Gender must be specified")
     private Gender gender;
 
-    @NotNull(message = "Last location longitude cannot be null")
-    private Float lastLocationLongitude;
-    @NotNull(message = "Last location latitude cannot be null")
-    private Float lastLocationLatitude;
+    private Point last_location;
 
-//    @NotEmpty(message = "Languages spoken cannot be empty")
+    //    @NotEmpty(message = "Languages spoken cannot be empty")
     @OneToMany
     @JoinColumn(name = "user_details_id")
     private List<Language> languages;
 
-//    @NotEmpty(message = "Hobbies cannot be empty")
+    //    @NotEmpty(message = "Hobbies cannot be empty")
     @OneToMany
     @JoinColumn(name = "user_details_id")
     private List<Hobby> hobbies;
 
-//    @NotEmpty(message = "Degrees cannot be empty")
+    //    @NotEmpty(message = "Degrees cannot be empty")
     @OneToMany
     @JoinColumn(name = "user_details_id")
     private List<Degree> degrees;
 
-//    @NotEmpty(message = "Pictures cannot be empty")
+    //    @NotEmpty(message = "Pictures cannot be empty")
     @OneToMany
     @JoinColumn(name = "user_details_id")
     private List<Picture> pictures;
@@ -88,8 +84,19 @@ public class Profile {
     @ManyToMany()
     @JoinTable(
             name = "user_details_tag",
-            joinColumns = { @JoinColumn(name = "user_details_id") },
-            inverseJoinColumns = { @JoinColumn(name = "tag_id") }
+            joinColumns = {@JoinColumn(name = "user_details_id")},
+            inverseJoinColumns = {@JoinColumn(name = "tag_id")}
     )
     private List<Tag> tags;
+
+    public Profile(ProfileDTO profileDTO) {
+        this.nationality = profileDTO.getNationality();
+        this.occupation = profileDTO.getOccupation();
+        this.height = profileDTO.getHeight();
+        this.bio = profileDTO.getBio();
+        this.lastname = profileDTO.getLastname();
+        this.firstname = profileDTO.getFirstname();
+        this.age = profileDTO.getAge();
+        this.gender = profileDTO.getGender();
+    }
 }

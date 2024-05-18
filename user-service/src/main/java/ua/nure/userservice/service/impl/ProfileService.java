@@ -3,7 +3,6 @@ package ua.nure.userservice.service.impl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ua.nure.userservice.client.MediaServiceClient;
@@ -12,11 +11,9 @@ import ua.nure.userservice.exception.ProfileNotFoundException;
 import ua.nure.userservice.model.Picture;
 import ua.nure.userservice.model.Profile;
 import ua.nure.userservice.model.Tag;
-import ua.nure.userservice.model.User;
 import ua.nure.userservice.repository.ProfileRepository;
 import ua.nure.userservice.repository.TagRepository;
 import ua.nure.userservice.service.IProfileService;
-import ua.nure.userservice.util.SecurityUtil;
 
 import java.util.Date;
 import java.util.List;
@@ -31,58 +28,43 @@ public class ProfileService implements IProfileService {
 
     private final MediaServiceClient mediaServiceClient;
     private final ProfileRepository profileRepository;
-    private final UserService userService;
     private final PictureService pictureService;
     private final TagRepository tagRepository;
 
     @Override
-    public Profile createProfile(Profile profile) throws ProfileAlreadyExistsException {
-        UserDetails userDetails = SecurityUtil.getAuthenticatedUser();
-        User user = userService.findUser(userDetails.getUsername());
-        profile.setUser(user);
-        profile.setProfileId(user.getUserId());
+    public Profile createProfile(Profile profile, UUID userId) throws ProfileAlreadyExistsException {
 
-        Optional<Profile> retrievedProfile = profileRepository.findByUserUserId(user.getUserId());
+        profile.setProfileId(userId);
+
+        Optional<Profile> retrievedProfile = profileRepository.findById(userId);
         if (retrievedProfile.isPresent()){
-            log.error("A user's {} profile already exists", profile.getUser().getUserId());
-            throw new ProfileAlreadyExistsException("A user's " + profile.getUser().getUserId() +" profile already exists");
+            log.error("A user's {} profile already exists", userId);
+            throw new ProfileAlreadyExistsException("A user's " + userId +" profile already exists");
         }
-        log.info("Creating profile {}", profile.getUser().getUserId());
+        log.info("Creating profile {}", profile.getProfileId());
         return profileRepository.save(profile);
     }
 
     @Override
     public Profile updateProfile(Profile profile) {
-        log.info("Updating profile {}", profile.getUser().getUserId());
+        log.info("Updating profile {}", profile.getProfileId());
         return profileRepository.save(profile);
     }
 
     @Override
     @Transactional
-    public Profile deleteProfile(UUID id) {
-        log.info("Deleting profile {}", id);
-
-        return profileRepository.deleteProfileByProfileId(id);
+    public void deleteProfile(UUID userId) {
+        log.info("Deleting profile {}", userId);
+        profileRepository.deleteById(userId);
     }
 
-    @Override
-    @Transactional
-    public Profile deleteProfileByUserId(UUID userId) {
-        log.info("Deleting user's profile {}", userId);
-        return profileRepository.deleteProfileByUserUserId(userId);
-    }
 
     @Override
     public Profile findProfile(UUID id) {
         return profileRepository.findById(id)
-                .orElseThrow(() -> new ProfileNotFoundException("Profile" + id + " not found"));
+                .orElseThrow(() -> new ProfileNotFoundException("Profile " + id + " not found"));
     }
 
-    @Override
-    public Profile findProfileByUserId(UUID userId) throws ProfileNotFoundException {
-        return profileRepository.findByUserUserId(userId)
-                .orElseThrow(() -> new ProfileNotFoundException("User" + userId + " does not have profile"));
-    }
 
     @Override
     public List<Profile> findAllProfile() {
@@ -90,14 +72,10 @@ public class ProfileService implements IProfileService {
     }
 
     @Override
-    public Picture addImageToProfile(int position, MultipartFile image) {
-        UserDetails userDetails = SecurityUtil.getAuthenticatedUser();
-        if (userDetails == null)
-            throw new SecurityException("User not authenticated");
+    public Picture addImageToProfile(int position, MultipartFile image, UUID userId) {
 
-        User user = userService.findUser(userDetails.getUsername());
-        Profile profile = findProfileByUserId(user.getUserId());
-        log.info("Updating user's profile {} images", user.getUserId());
+        Profile profile = this.findProfile(userId);
+        log.info("Updating user's profile {} images", userId);
 
 
         String imageUrl = mediaServiceClient.uploadImage(image);
@@ -127,12 +105,8 @@ public class ProfileService implements IProfileService {
 
     @Override
     @Transactional
-    public Profile addTagToProfile(String tagName) {
-
-        UserDetails userDetails = SecurityUtil.getAuthenticatedUser();
-        User user = userService.findUser(userDetails.getUsername());
-
-        Profile profile = findProfile(user.getUserId());
+    public Profile addTagToProfile(String tagName, UUID userId) {
+        Profile profile = findProfile(userId);
 
         Tag tag = tagRepository.findByTagName(tagName)
                 .orElseGet(() -> {

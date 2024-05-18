@@ -11,7 +11,7 @@
 //import ua.nure.userservice.client.MediaServiceClient;
 //import ua.nure.userservice.exception.ProfileAlreadyExistsException;
 //import ua.nure.userservice.model.Profile;
-//import ua.nure.userservice.model.User;
+//import ua.nure.securityservice.model.User;
 //import ua.nure.userservice.repository.ProfileRepository;
 //
 //import java.util.Optional;
