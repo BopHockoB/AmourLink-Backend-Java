@@ -4,6 +4,8 @@
 #  config:
 #    import: optional:configserver:http://localhost:8888
 
+
+
 eureka:
   instance:
     hostname: localhost
@@ -24,6 +26,7 @@ spring:
   jwt:
     jwtExpirationInMs: 1800000
     secret: 36763979244226452948404D635164546A576D5A7134D43777217A25432A462D
+
   cloud:
     config:
       enabled: false
@@ -35,9 +38,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database: mysql
+    show-sql: true
     hibernate:
       ddl-auto: update
-    show-sql: true
+
 
 application:
   config:

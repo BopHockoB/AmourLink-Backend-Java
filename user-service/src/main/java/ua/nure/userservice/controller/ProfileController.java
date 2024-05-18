@@ -7,6 +7,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ua.nure.userservice.annotation.UserId;
+import ua.nure.userservice.model.dto.ProfileDTO;
+import ua.nure.userservice.model.dto.TagDTO;
 import ua.nure.userservice.model.Profile;
 import ua.nure.userservice.responce.ResponseBody;
 import ua.nure.userservice.service.IProfileService;
@@ -29,39 +32,42 @@ public class ProfileController {
         return new ResponseEntity<>(responseBody, HttpStatus.FOUND);
     }
     @PostMapping("/add")
-    public ResponseEntity<ResponseBody> add(@RequestBody @Valid Profile profile){
-        ResponseBody responseBody = new ResponseBody(profileService.createProfile(profile));
+    public ResponseEntity<ResponseBody> add(@RequestBody @Valid ProfileDTO profileDTO, @UserId UUID userId){
+        Profile profile = new Profile(profileDTO);
+
+        ResponseBody responseBody = new ResponseBody(profileService.createProfile(profile, userId));
         return ResponseEntity.ok(responseBody);
     }
 
     @GetMapping("/{userId}")
     public ResponseEntity<ResponseBody> getByUserId(@PathVariable("userId") UUID userId){
-        ResponseBody responseBody = new ResponseBody(profileService.findProfileByUserId(userId));
+        ResponseBody responseBody = new ResponseBody(profileService.findProfile(userId));
         return ResponseEntity.ok(responseBody);
     }
 
     @DeleteMapping("/{userId}")
     public void delete(@PathVariable("userId") UUID userId){
-        profileService.deleteProfileByUserId(userId);
+        profileService.deleteProfile(userId);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<ResponseBody> update(@RequestBody @Valid Profile profile){
+    public ResponseEntity<ResponseBody> update(@RequestBody @Valid ProfileDTO profileDTO){
+        Profile profile = new Profile(profileDTO);
+
         ResponseBody responseBody = new ResponseBody(profileService.updateProfile(profile));
         return ResponseEntity.ok(responseBody);
     }
 
-
     @PostMapping(
             path ="/add-image",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void addImages(@RequestParam("file") MultipartFile file, @RequestParam("position") int position){
-        profileService.addImageToProfile(position, file);
+    public void addImages(@RequestParam("file") MultipartFile file, @RequestParam("position") int position, @UserId UUID userId){
+        profileService.addImageToProfile(position, file, userId);
     }
 
     @PostMapping("/add-tag")
-    public ResponseEntity<ResponseBody> addTag(@RequestBody String tag){
-        ResponseBody responseBody = new ResponseBody(profileService.addTagToProfile(tag));
+    public ResponseEntity<ResponseBody> addTag(@RequestBody TagDTO tagDTO, @UserId UUID userId){
+        ResponseBody responseBody = new ResponseBody(profileService.addTagToProfile(tagDTO.getTagName(), userId));
         return ResponseEntity.ok(responseBody);
     }
 }

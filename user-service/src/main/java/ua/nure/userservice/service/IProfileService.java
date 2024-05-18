@@ -1,5 +1,6 @@
 package ua.nure.userservice.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ua.nure.userservice.exception.ProfileAlreadyExistsException;
 import ua.nure.userservice.model.Picture;
@@ -10,14 +11,14 @@ import java.util.UUID;
 
 public interface IProfileService {
 
-    Profile createProfile(Profile profile) throws ProfileAlreadyExistsException;
+    Profile createProfile(Profile profile, UUID userId) throws ProfileAlreadyExistsException;
     Profile updateProfile(Profile profile);
-    Profile deleteProfile(UUID id);
-    Profile deleteProfileByUserId(UUID userId);
+    void deleteProfile(UUID id);
     Profile findProfile(UUID id);
-    Profile findProfileByUserId(UUID id);
     List<Profile> findAllProfile();
-    Picture addImageToProfile(int position, MultipartFile image);
-    Profile addTagToProfile(String tagName);
+    Picture addImageToProfile(int position, MultipartFile image, UUID userId);
+
+    @Transactional
+    Profile addTagToProfile(String tagName, UUID userId);
 }
 
