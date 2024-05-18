@@ -1,6 +1,6 @@
 package ua.nure.securityservice.model;
 
-import ua.nure.securityservice.model.UserDTO;
+import ua.nure.securityservice.model.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "_user")
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue
