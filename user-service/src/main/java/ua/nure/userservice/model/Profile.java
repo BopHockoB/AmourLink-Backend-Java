@@ -36,14 +36,14 @@ public class Profile {
     private String occupation;
     private String nationality;
     private Point last_location;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
 
     @ManyToOne
     @JoinColumn(name = "music_id")
     private Music music;
 
-    @Enumerated(EnumType.STRING)
-    @NotNull(message = "Gender must be specified")
-    private Gender gender;
 
     @OneToMany
     @JoinColumn(name = "user_id")
