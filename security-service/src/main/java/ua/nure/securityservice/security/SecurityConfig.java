@@ -28,6 +28,7 @@ public class SecurityConfig {
 
     private static final String[] UN_SECURED_URLs = {
             "/authenticate/**",
+            "/api/security-service/users/add",
             "/swagger-ui/**",
             "/swagger-ui.html",
             "/swagger-resources/**",
