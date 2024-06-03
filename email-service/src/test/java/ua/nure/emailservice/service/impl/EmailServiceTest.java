@@ -4,15 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mail.javamail.JavaMailSender;
 import ua.nure.emailservice.model.EmailDetails;
 
 @SpringBootTest
 @RequiredArgsConstructor
 class EmailServiceTest {
-
-    @Autowired
-    private JavaMailSender emailSender;
 
     @Autowired
     private EmailService emailService;

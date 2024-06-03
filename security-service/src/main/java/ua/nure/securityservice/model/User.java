@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
+import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
@@ -24,6 +25,9 @@ public class User {
     private String email;
     private String password;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
@@ -35,5 +39,6 @@ public class User {
     public User(UserDTO userDTO) {
         this.email = userDTO.getEmail();
         this.password = userDTO.getPassword();
+
     }
 }

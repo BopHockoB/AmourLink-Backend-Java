@@ -12,6 +12,7 @@ import ua.nure.userservice.model.dto.ProfileDTO;
 import ua.nure.userservice.model.dto.TagDTO;
 import ua.nure.userservice.model.Profile;
 import ua.nure.userservice.responce.ResponseBody;
+import ua.nure.userservice.service.IPictureService;
 import ua.nure.userservice.service.IProfileService;
 
 
@@ -23,7 +24,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ProfileController {
     private final IProfileService profileService;
-
+    private final IPictureService pictureService;
 
     @GetMapping("/get-all")
     public ResponseEntity<ResponseBody> getAllUsers(){
@@ -69,5 +70,11 @@ public class ProfileController {
     public ResponseEntity<ResponseBody> addTag(@RequestBody TagDTO tagDTO, @UserId UUID userId){
         ResponseBody responseBody = new ResponseBody(profileService.addTagToProfile(tagDTO.getTagName(), userId));
         return ResponseEntity.ok(responseBody);
+    }
+
+    @PutMapping
+    public ResponseEntity<ResponseBody> swapPicturePositions(@RequestBody UUID pictureId1, @RequestBody UUID pictureId2, @UserId UUID userId){
+       pictureService.swapPositions(pictureId1, pictureId2, userId);
+        return ResponseEntity.ok(new ResponseBody());
     }
 }
