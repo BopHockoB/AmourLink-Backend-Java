@@ -20,4 +20,6 @@ public class UserDTO implements Serializable {
     private String email;
     @Pattern(regexp = "^[a-zA-Z0-9!@#$%^&*()-_=+{};:,.<>?`~]*$", message = "Password is not valid")
     private String password;
+
+
 }

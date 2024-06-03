@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import ua.nure.userservice.model.dto.UserDTO;
 
 
+import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
@@ -23,6 +24,8 @@ public class User {
     private UUID userId;
     private String email;
     private String password;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startDate;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

@@ -58,7 +58,6 @@ public class ProfileService implements IProfileService {
         profileRepository.deleteById(userId);
     }
 
-
     @Override
     public Profile findProfile(UUID id) {
         return profileRepository.findById(id)
