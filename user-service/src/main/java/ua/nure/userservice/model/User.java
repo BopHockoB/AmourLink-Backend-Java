@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ua.nure.userservice.model.dto.UserDTO;
 
-
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
@@ -24,6 +23,10 @@ public class User {
     private UUID userId;
     private String email;
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private AccountType accountType;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
 
@@ -34,6 +37,12 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
+
+    public enum AccountType{
+        LOCAL,
+        GOOGLE,
+        FACEBOOK
+    }
 
     public User(UserDTO userDTO) {
         this.email = userDTO.getEmail();

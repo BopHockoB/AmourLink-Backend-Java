@@ -36,14 +36,14 @@ public class PictureService implements IPictureService {
         Picture picture1 = pictureRepository.findById(positionId1).orElse(null);
         Picture picture2 = pictureRepository.findById(positionId2).orElse(null);
 
-        if (isValidPicture(picture1, userId) && isValidPicture(picture2, userId)) {
+        if (isValidPicture(picture1, userId) && isValidPicture(picture2, userId)){
             Integer tmpPosition = picture1.getPosition();
             picture1.setPosition(picture2.getPosition());
             picture2.setPosition(tmpPosition);
 
             pictureRepository.save(picture1);
             pictureRepository.save(picture2);
-        }
+}
     }
 
     private boolean isValidPicture(Picture picture, UUID userId) {

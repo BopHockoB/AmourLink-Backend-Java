@@ -1,12 +1,11 @@
 package ua.nure.securityservice.model;
 
-import ua.nure.securityservice.model.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import ua.nure.securityservice.model.dto.UserDTO;
 
 import java.util.Date;
 import java.util.Set;
@@ -25,6 +24,9 @@ public class User {
     private String email;
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private AccountType accountType;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
@@ -35,6 +37,12 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
+
+    public enum AccountType{
+        LOCAL,
+        GOOGLE,
+        FACEBOOK
+    }
 
     public User(UserDTO userDTO) {
         this.email = userDTO.getEmail();

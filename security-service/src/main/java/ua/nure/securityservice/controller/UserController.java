@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
 import ua.nure.securityservice.model.User;
 import ua.nure.securityservice.model.dto.UserDTO;
@@ -26,6 +25,7 @@ public class UserController {
     @PostMapping("/add")
     public ResponseEntity<ResponseBody> add(@RequestBody @Valid UserDTO userDTO) {
         User user = new User(userDTO);
+        user.setAccountType(User.AccountType.LOCAL);
         ResponseBody responseBody = new ResponseBody(userService.createUser(user));
         return ResponseEntity.ok(responseBody);
     }

@@ -2,7 +2,6 @@ package ua.nure.userservice.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import ua.nure.userservice.model.Picture;
-import ua.nure.userservice.model.Profile;
 
 import java.util.UUID;
 

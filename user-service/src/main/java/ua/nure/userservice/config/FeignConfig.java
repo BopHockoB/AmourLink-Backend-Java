@@ -1,4 +1,4 @@
-package ua.nure.userservice.client.feignConfig;
+package ua.nure.userservice.config;
 
 import feign.codec.Encoder;
 import feign.form.spring.SpringFormEncoder;

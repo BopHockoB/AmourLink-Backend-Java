@@ -8,13 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ua.nure.userservice.annotation.UserId;
+import ua.nure.userservice.model.Profile;
 import ua.nure.userservice.model.dto.ProfileDTO;
 import ua.nure.userservice.model.dto.TagDTO;
-import ua.nure.userservice.model.Profile;
 import ua.nure.userservice.responce.ResponseBody;
 import ua.nure.userservice.service.IPictureService;
 import ua.nure.userservice.service.IProfileService;
-
 
 import java.util.UUID;
 

@@ -5,9 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.JdbcType;
-import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
-import ua.nure.userservice.service.impl.ProfileService;
 
 import java.util.Date;
 import java.util.UUID;

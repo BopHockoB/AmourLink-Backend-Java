@@ -35,3 +35,6 @@ eureka:
 oauth2:
   baseUrl: https://api.github.com/user/emails\
 
+google:
+  client:
+    client-id: https://902213864397-r88n97ocfudhkgv4vagle3tbmrmve9dc.apps.googleusercontent.com
