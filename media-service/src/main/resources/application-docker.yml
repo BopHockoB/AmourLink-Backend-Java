@@ -1,0 +1,33 @@
+#spring:
+#  application:
+#    name: media-service
+#  config:
+#    import: optional:configserver:http://config-server:8888
+
+eureka:
+  instance:
+    hostname: discovery
+  client:
+    service-url:
+      defaultZone: http://discovery:8761/eureka
+
+server:
+  port: 8070
+
+spring:
+  application:
+    name: media-service
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2MB
+      max-request-size: 2MB
+  cloud:
+    config:
+      enabled: false
+cloudinary:
+  api-key: 265424896617777
+  api-secret: jYYqM78gFmDhCqISwFH-hPqsuvA
+  cloud-name: dreeikt1w
+
+

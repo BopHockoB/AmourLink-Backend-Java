@@ -1,0 +1,24 @@
+#spring:
+#  application:
+#    name: media-service
+#  config:
+#    import: optional:configserver:http://localhost:8888
+
+server:
+  port: 8761
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}
+
+spring:
+  application:
+    name: discovery
+  cloud:
+    config:
+      enabled: false

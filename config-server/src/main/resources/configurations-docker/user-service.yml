@@ -1,0 +1,36 @@
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://discovery:8761/eureka
+
+server:
+  port: 8090
+
+spring:
+  application:
+    name: user-service
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 2MB
+  jwt:
+    jwtExpirationInMs: 1800000
+    secret: 36763979244226452948404D635164546A576D5A7134D43777217A25432A462D
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/amourlink
+    username: root
+    password: 123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+application:
+  config:
+    media-service-url: http://media-service:8070/api/media-service/images
+

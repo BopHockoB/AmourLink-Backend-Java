@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_HOST: 'mysql'
+      MYSQL_DATABASE: 'amourlink'
+      MYSQL_ROOT_PASSWORD: '123'
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - app-network
+
+  discovery:
+    image: danyloz/amourlink-java-media-service:1.2
+    ports:
+      - "8761:8761"
+    networks:
+      - app-network
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+
+  media-service:
+    image: danyloz/amourlink-java-media-service:1.2
+    depends_on:
+      - discovery
+    ports:
+      - "8070:8070"
+    networks:
+      - app-network
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+
+  user-service:
+    image: danyloz/amourlink-java-user-service:1.3
+    depends_on:
+      - discovery
+      - media-service
+    ports:
+      - "8090:8090"
+    networks:
+      - app-network
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+    volumes:
+      - zookeeper_data:/var/lib/zookeeper/data
+      - zookeeper_log:/var/lib/zookeeper/log
+
+  kafka:
+    image: wurstmeister/kafka
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    depends_on:
+      - zookeeper
+    volumes:
+      - kafka_data:/var/lib/event/data
+
+
+volumes:
+  mysql-data:
+  zookeeper_data:
+  zookeeper_log:
+  kafka_data:
+
+networks:
+  app-network:
+    driver: bridge
