@@ -2,15 +2,12 @@ package ua.nure.userservice.model;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import org.locationtech.jts.geom.Point;
 import ua.nure.userservice.model.dto.ProfileDTO;
-
 
 import java.util.List;
 import java.util.UUID;

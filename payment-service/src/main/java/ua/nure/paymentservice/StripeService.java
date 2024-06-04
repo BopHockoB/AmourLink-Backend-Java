@@ -1,28 +1,45 @@
 package ua.nure.paymentservice;
 
+import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
-import com.stripe.model.Charge;
-import org.apache.http.auth.AuthenticationException;
+import com.stripe.model.checkout.Session;
+import com.stripe.param.checkout.SessionCreateParams;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import ua.nure.paymentservice.request.ChargeRequest;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class StripeService {
 
-    @Value("${STRIPE_SECRET_KEY}")
-    private String secretKey;
+  public StripeService(@Value("${STRIPE_SECRET_KEY}") String secretKey) {
+     Stripe.apiKey = secretKey;
+  }
 
-    public Charge charge(ChargeRequest chargeRequest)
-            throws AuthenticationException, StripeException {
-        Map<String, Object> chargeParams = new HashMap<>();
-        chargeParams.put("amount", chargeRequest.getAmount());
-        chargeParams.put("currency", chargeRequest.getCurrency());
-        chargeParams.put("description", chargeRequest.getDescription());
-        chargeParams.put("source", chargeRequest.getStripeToken());
-        return Charge.create(chargeParams);
-    }
+  public Session createSession() throws StripeException {
+    List<Object> paymentMethodTypes =
+        new ArrayList<>();
+    paymentMethodTypes.add("card");
+    
+    SessionCreateParams params =
+        SessionCreateParams.builder()
+            .setSuccessUrl("http://localhost:8080/success?session_id={CHECKOUT_SESSION_ID}")
+            .setCancelUrl("http://localhost:8080/cancel")
+            .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
+            .setMode(SessionCreateParams.Mode.SUBSCRIPTION)
+            .addLineItem(
+                    SessionCreateParams.LineItem.builder()
+                            .setPriceData(
+                                    SessionCreateParams.LineItem.PriceData.builder()
+                                            .setCurrency("usd")
+                                            .setProduct("Preasd") // The product you're selling
+                                            .setUnitAmount(50L) // use minor units, like cents for USD
+                                            .build())
+            .setQuantity(1L)
+            .build())
+            .build(); 
+      
+    return Session.create(params);
+  }
 }

@@ -7,7 +7,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import ua.nure.emailservice.model.EmailDetails;
 import ua.nure.emailservice.service.IEmailService;
-import ua.nure.emailservice.service.impl.EmailService;
 
 @Service
 @RequiredArgsConstructor

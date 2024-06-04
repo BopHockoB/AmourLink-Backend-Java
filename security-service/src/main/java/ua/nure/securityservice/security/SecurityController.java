@@ -1,5 +1,6 @@
-package ua.nure.securityservice.security.jwt;
+package ua.nure.securityservice.security;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -8,12 +9,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ua.nure.securityservice.security.jwt.JwtAuthenticationRequest;
+import ua.nure.securityservice.security.jwt.JwtService;
+import ua.nure.securityservice.security.oauth2.GoogleTokenVerifierService;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/login")
-public class JwtController {
+public class SecurityController {
     private final JwtService jwtService;
+    private final GoogleTokenVerifierService googleTokenVerifierService;
     private final AuthenticationManager authenticationManager;
 
     @PostMapping
@@ -26,5 +31,10 @@ public class JwtController {
         else {
             throw new RuntimeException("Invalid user credentials");
         }
+    }
+
+    @PostMapping("/google")
+    public String getTokenForGoogleUser(@RequestBody String token){
+        return googleTokenVerifierService.getToken(token);
     }
 }

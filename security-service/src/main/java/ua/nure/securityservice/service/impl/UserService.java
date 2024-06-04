@@ -9,9 +9,8 @@ import org.springframework.stereotype.Service;
 import ua.nure.securityservice.exception.UserAlreadyExistsException;
 import ua.nure.securityservice.exception.UserNotFoundException;
 import ua.nure.securityservice.model.User;
-import ua.nure.securityservice.service.IUserService;
 import ua.nure.securityservice.repository.UserRepository;
-
+import ua.nure.securityservice.service.IUserService;
 
 import java.util.List;
 import java.util.Optional;

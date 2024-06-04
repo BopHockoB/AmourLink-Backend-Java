@@ -4,11 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,5 +25,9 @@ public class ResponseBody {
 
     public ResponseBody(Object body) {
         this.body = body;
+    }
+
+    public enum ResponseType {
+        SUCCESS, VALIDATION_FAILED, HTTP_ERROR
     }
 }
