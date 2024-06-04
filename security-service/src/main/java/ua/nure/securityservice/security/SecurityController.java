@@ -1,6 +1,6 @@
 package ua.nure.securityservice.security;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
