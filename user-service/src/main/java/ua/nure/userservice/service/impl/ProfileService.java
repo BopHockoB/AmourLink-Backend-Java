@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ua.nure.userservice.client.MediaServiceClient;
+import ua.nure.userservice.exception.PictureNotFoundException;
 import ua.nure.userservice.exception.ProfileAlreadyExistsException;
 import ua.nure.userservice.exception.ProfileNotFoundException;
 import ua.nure.userservice.model.Picture;
@@ -71,7 +72,7 @@ public class ProfileService implements IProfileService {
     }
 
     @Override
-    public Picture addImageToProfile(int position, MultipartFile image, UUID userId) {
+    public Picture addImageToProfile(int position, MultipartFile image, UUID userId) throws PictureNotFoundException {
 
         Profile profile = this.findProfile(userId);
         log.info("Updating user's profile {} images", userId);
@@ -91,7 +92,6 @@ public class ProfileService implements IProfileService {
                 .findFirst().orElse(null);
 
         if (pictureToDelete != null) {
-
             pictureService.deletePicture(pictureToDelete.getPictureId());
             mediaServiceClient.deleteImage(pictureToDelete.getPictureUrl());
         }

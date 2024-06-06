@@ -38,3 +38,8 @@ oauth2:
 google:
   client:
     client-id: https://902213864397-r88n97ocfudhkgv4vagle3tbmrmve9dc.apps.googleusercontent.com
+
+facebook:
+  app:
+    id: 970835071296481
+    secret: 62075352a1fc4ad0dd6b5ac4fc90b057

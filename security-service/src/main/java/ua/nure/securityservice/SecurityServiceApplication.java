@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import ua.nure.securityservice.exception.UserAlreadyExistsException;
 import ua.nure.securityservice.model.User;
@@ -12,6 +13,7 @@ import ua.nure.securityservice.service.IUserService;
 
 @Slf4j
 @SpringBootApplication
+@EnableFeignClients
 public class SecurityServiceApplication {
 
     public static void main(String[] args) {

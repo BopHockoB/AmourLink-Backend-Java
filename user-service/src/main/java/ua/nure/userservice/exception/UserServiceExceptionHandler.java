@@ -40,4 +40,12 @@ public class UserServiceExceptionHandler {
         errors.put("error", ex.getMessage());
         return new ResponseBody(ResponseBody.ResponseType.HTTP_ERROR, null, errors);
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ProfileNotFoundException.class)
+    public ResponseBody pictureNotFound(ProfileNotFoundException ex){
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", ex.getMessage());
+        return new ResponseBody(ResponseBody.ResponseType.HTTP_ERROR, null, errors);
+    }
 }

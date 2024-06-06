@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ua.nure.securityservice.exception.AccountTypeException;
 import ua.nure.securityservice.security.jwt.JwtAuthenticationRequest;
 import ua.nure.securityservice.security.jwt.JwtService;
 import ua.nure.securityservice.security.oauth2.GoogleTokenVerifierService;
@@ -34,7 +35,7 @@ public class SecurityController {
     }
 
     @PostMapping("/google")
-    public String getTokenForGoogleUser(@RequestBody String token){
+    public String getTokenForGoogleUser(@RequestBody String token) throws AccountTypeException {
         return googleTokenVerifierService.getToken(token);
     }
 }

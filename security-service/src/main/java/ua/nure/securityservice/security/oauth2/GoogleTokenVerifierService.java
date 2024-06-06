@@ -8,6 +8,7 @@ import com.google.api.client.json.gson.GsonFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import ua.nure.securityservice.exception.AccountTypeException;
 import ua.nure.securityservice.exception.UserNotFoundException;
 import ua.nure.securityservice.model.User;
 import ua.nure.securityservice.security.jwt.JwtService;
@@ -41,11 +42,16 @@ public class GoogleTokenVerifierService {
      * @param idTokenString The Google ID token string to retrieve the token for.
      * @return The token for the given Google ID token string.
      */
-    public String getToken(String idTokenString) {
+    public String getToken(String idTokenString) throws AccountTypeException {
         var payload = verify(idTokenString);
         User user = findUser(payload);
         if (user == null)
             user = userService.createUser(user);
+
+        if (user.getAccountType() != User.AccountType.GOOGLE)
+            throw new AccountTypeException(
+                    "User " + user.getEmail() + " account type doesn't match to " + User.AccountType.GOOGLE
+            );
 
         return jwtService.generateToken(user.getEmail());
     }

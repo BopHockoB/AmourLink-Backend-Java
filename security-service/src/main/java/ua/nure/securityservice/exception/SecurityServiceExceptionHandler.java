@@ -28,4 +28,12 @@ public class SecurityServiceExceptionHandler {
         errors.put("error", ex.getMessage());
         return new ResponseBody(ResponseType.HTTP_ERROR, null, errors);
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(AccountTypeException.class)
+    public ResponseBody accountTypeMatch(AccountTypeException ex){
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", ex.getMessage());
+        return new ResponseBody(ResponseType.HTTP_ERROR, null, errors);
+    }
 }

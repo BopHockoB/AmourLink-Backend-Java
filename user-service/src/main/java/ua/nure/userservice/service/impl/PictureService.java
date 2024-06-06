@@ -4,6 +4,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ua.nure.userservice.client.MediaServiceClient;
+import ua.nure.userservice.exception.PictureNotFoundException;
 import ua.nure.userservice.model.Picture;
 import ua.nure.userservice.repository.PictureRepository;
 import ua.nure.userservice.service.IPictureService;
@@ -14,7 +16,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class PictureService implements IPictureService {
-
+    private final MediaServiceClient mediaServiceClient;
     private final PictureRepository pictureRepository;
 
     @Override
@@ -24,10 +26,14 @@ public class PictureService implements IPictureService {
 
     @Override
     @Transactional
-    public void deletePicture(UUID pictureId) {
-        pictureRepository.deletePictureByPictureId(pictureId);
-        log.info("Deleted picture with id: {}", pictureId);
+    public void deletePicture(UUID pictureId) throws PictureNotFoundException {
+        Picture picture = pictureRepository.findById(pictureId)
+                .orElseThrow(() -> new PictureNotFoundException("Picture " + pictureId + " doesn't exist"));
 
+        pictureRepository.deletePictureByPictureId(pictureId);
+        mediaServiceClient.deleteImage(picture.getPictureUrl());
+
+        log.info("Deleted picture with id: {}", pictureId);
     }
 
     @Override
