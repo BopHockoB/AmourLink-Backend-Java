@@ -15,7 +15,7 @@ import java.util.Map;
 public class ResponseBody {
 
     ResponseType responseType;
-    Object body;
+    Object result;
     Map<String, String> errors;
 
     {
@@ -24,6 +24,6 @@ public class ResponseBody {
     }
 
     public ResponseBody(Object body) {
-        this.body = body;
+        this.result = body;
     }
 }

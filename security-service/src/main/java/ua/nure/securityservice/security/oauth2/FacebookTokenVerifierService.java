@@ -13,6 +13,7 @@ import ua.nure.securityservice.service.impl.UserService;
 
 import java.security.GeneralSecurityException;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor()
@@ -33,7 +34,13 @@ public class FacebookTokenVerifierService {
         User user = findUser(userEmail);
 
         if (user == null) {
-            user.setAccountType(User.AccountType.FACEBOOK);
+
+            user = User.builder()
+                    .accountType(User.AccountType.FACEBOOK)
+                    .email(userEmail)
+                    .password(UUID.randomUUID().toString())
+                    .build();
+
             user = userService.createUser(user); // Assuming User has a constructor that accepts an email.
         }
 

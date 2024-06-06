@@ -15,7 +15,7 @@ import java.util.Map;
 public class ResponseBody {
 
     ResponseType responseType;
-    Object body;
+    Object result;
     Map<String, String> errors;
 
     {
@@ -23,8 +23,8 @@ public class ResponseBody {
         errors = new HashMap<>();
     }
 
-    public ResponseBody(Object body) {
-        this.body = body;
+    public ResponseBody(Object result) {
+        this.result = result;
     }
 
     public enum ResponseType {

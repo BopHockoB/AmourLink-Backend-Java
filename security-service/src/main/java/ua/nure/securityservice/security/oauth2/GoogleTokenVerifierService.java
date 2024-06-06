@@ -5,6 +5,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 
 import com.google.api.client.json.gson.GsonFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,9 @@ import ua.nure.securityservice.service.impl.UserService;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
+import java.util.UUID;
 
+@Slf4j
 @Service
 public class GoogleTokenVerifierService {
     private final GoogleIdTokenVerifier verifier;
@@ -43,57 +46,66 @@ public class GoogleTokenVerifierService {
      * @return The token for the given Google ID token string.
      */
     public String getToken(String idTokenString) throws AccountTypeException {
+        log.info("Getting token for idTokenString: {}", idTokenString);
+
         var payload = verify(idTokenString);
         User user = findUser(payload);
-        if (user == null)
-            user = userService.createUser(user);
 
-        if (user.getAccountType() != User.AccountType.GOOGLE)
+        if (user == null) {
+            log.info("User not found, creating new user");
+
+            user = User.builder()
+                    .accountType(User.AccountType.GOOGLE)
+                    .email(payload.getEmail())
+                    .password(UUID.randomUUID().toString())
+                    .build();
+            user = userService.createUser(user);
+        }
+
+        if (user.getAccountType() != User.AccountType.GOOGLE) {
+            log.error("User account type does not match {} ", User.AccountType.GOOGLE);
             throw new AccountTypeException(
                     "User " + user.getEmail() + " account type doesn't match to " + User.AccountType.GOOGLE
             );
+        }
 
         return jwtService.generateToken(user.getEmail());
     }
 
-    /**
-     * Verifies the given Google ID token string and retrieves the payload.
-     *
-     * @param idTokenString The Google ID token string to verify.
-     * @return The payload of the Google ID token.
-     * @throws RuntimeException If the token could not be verified.
-     */
     public GoogleIdToken.Payload verify(String idTokenString) {
+        log.debug("Verifying idTokenString: {}", idTokenString);
+
         try {
             GoogleIdToken idToken = verifier.verify(idTokenString);
             if (idToken != null) {
                 return idToken.getPayload();
             } else {
+                log.error("Invalid ID token");
                 throw new GeneralSecurityException("Invalid ID token.");
             }
         } catch (GeneralSecurityException | IOException e) {
+            log.error("Could not verify token", e);
             throw new RuntimeException("Could not verify token", e);
         }
-
     }
 
-
     /**
-     * Finds a user based on the Google ID token payload.
+     * Finds a user based on the given payload.
      *
-     * @param payload The Google ID token payload.
-     * @return The found user or null if the user is not found.
+     * @param payload The GoogleIdToken.Payload object containing user information.
+     * @return The found User object if found, or null if the user is not found.
      */
-    public User findUser(GoogleIdToken.Payload payload){
+    public User findUser(GoogleIdToken.Payload payload) {
         String userEmail = payload.getEmail();
+        log.debug("Finding user with email: {}", userEmail);
 
         try {
             User user = userService.findUser(userEmail);
             return user;
         } catch (UserNotFoundException e) {
+            log.error("User not found with email: {}", userEmail, e);
             return null;
         }
-
     }
 
 }

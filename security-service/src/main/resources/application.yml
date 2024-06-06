@@ -24,12 +24,12 @@ spring:
       ddl-auto: update
     show-sql: true
 
-eureka:
-  instance:
-    hostname: localhost
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
+#eureka:
+#  instance:
+#    hostname: localhost
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka
 
 
 oauth2:
@@ -37,7 +37,7 @@ oauth2:
 
 google:
   client:
-    client-id: https://902213864397-r88n97ocfudhkgv4vagle3tbmrmve9dc.apps.googleusercontent.com
+    client-id: 902213864397-r88n97ocfudhkgv4vagle3tbmrmve9dc.apps.googleusercontent.com
 
 facebook:
   app:
