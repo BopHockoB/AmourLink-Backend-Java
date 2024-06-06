@@ -1,24 +1,22 @@
-package ua.nure.securityservice.security;
+package ua.nure.userservice.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ua.nure.securityservice.model.User;
+import ua.nure.userservice.model.User;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class AmourLinkUserDetails implements UserDetails {
 
-    private String email;
+    private String userName;
     private String password;
     private List<GrantedAuthority> authorities;
 
     public AmourLinkUserDetails(User user) {
-        email = user.getEmail();
-        password = user.getPassword();
 
         if (!user.getRoles().isEmpty()) {
             authorities = user.getRoles().stream()
@@ -42,7 +40,7 @@ public class AmourLinkUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return userName;
     }
 
     @Override
