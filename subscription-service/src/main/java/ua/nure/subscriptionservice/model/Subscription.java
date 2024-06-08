@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -18,10 +19,12 @@ public class Subscription {
     private UUID userId;
     private String stripeCustomerId;
     private String stripeSubscriptionId;
-    private String planId;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
+    @OneToMany(mappedBy = "subscription")
+    private List<Payment> payments;
+
+    @ManyToOne
+    private Plan plan;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
@@ -35,17 +38,5 @@ public class Subscription {
     @Temporal(TemporalType.TIMESTAMP)
     private Date nextPaymentDate;
 
-            @Getter
-            @AllArgsConstructor
-            public enum Status {
-                INCOMPLETE("incomplete"),
-                INCOMPLETE_EXPIRED("incomplete_expired"),
-                TRIALING("trialing"),
-                ACTIVE("active"),
-                PAST_DUE("past_due"),
-                CANCELED("canceled"),
-                UNPAID("unpaid");
 
-                private final String status;
-            }
 }

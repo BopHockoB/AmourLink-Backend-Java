@@ -7,7 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ua.nure.userservice.annotation.UserId;
+import ua.nure.userservice.resolver.UserId;
 import ua.nure.userservice.exception.PictureNotFoundException;
 import ua.nure.userservice.model.Profile;
 import ua.nure.userservice.model.dto.ProfileDTO;

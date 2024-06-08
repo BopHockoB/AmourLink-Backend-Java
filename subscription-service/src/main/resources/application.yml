@@ -1,0 +1,7 @@
+spring:
+  application:
+  name: subscription-service
+
+  jwt:
+    jwtExpirationInMs: 1800000
+    secret: 36763979244226452948404D635164546A576D5A7134D43777217A25432A462D

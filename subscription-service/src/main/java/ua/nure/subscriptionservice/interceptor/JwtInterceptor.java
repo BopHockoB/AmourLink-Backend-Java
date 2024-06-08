@@ -4,23 +4,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import ua.nure.userservice.util.JwtUtil;
+import ua.nure.subscriptionservice.util.JwtUtil;
+
 
 import java.util.UUID;
 
-/**
- * JwtInterceptor is a class that implements the HandlerInterceptor interface
- * to intercept and process JWT (JSON Web Token) authentication for incoming requests.
- * It verifies the validity of the token and extracts the user ID from the token.
- */
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtInterceptor implements HandlerInterceptor {
-
     private final JwtUtil jwtUtil;
 
     @Override

@@ -5,11 +5,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
+import ua.nure.subscriptionservice.exception.SubscriptionNotFoundException;
 import ua.nure.subscriptionservice.model.Subscription;
+import ua.nure.subscriptionservice.resolver.UserId;
 import ua.nure.subscriptionservice.response.ResponseBody;
 import ua.nure.subscriptionservice.service.ISubscriptionService;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -24,6 +25,11 @@ public class SubscriptionController {
         return ResponseEntity.ok(new ResponseBody
                 (subscriptionService.findAllSubscriptions()
         ));
+    }
+
+    @GetMapping("/byUserId")
+    public ResponseEntity<ResponseBody> findSubscriptionsByUserId(@UserId UUID userId) {
+        return ResponseEntity.ok(new ResponseBody(subscriptionService.findSubscriptionByUserId(userId)));
     }
 
     @GetMapping("/{subscriptionId}")

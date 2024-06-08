@@ -1,4 +1,4 @@
-package ua.nure.userservice.util;
+package ua.nure.subscriptionservice.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

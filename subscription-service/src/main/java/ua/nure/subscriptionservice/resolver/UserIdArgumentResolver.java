@@ -1,4 +1,4 @@
-package ua.nure.userservice.resolver;
+package ua.nure.subscriptionservice.resolver;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;

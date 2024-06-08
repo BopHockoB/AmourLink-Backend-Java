@@ -1,10 +1,12 @@
-package ua.nure.userservice.security;
+package ua.nure.securityservice.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ua.nure.userservice.model.User;
+import ua.nure.securityservice.model.User;
 
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
