@@ -1,5 +1,8 @@
 package ua.nure.subscriptionservice.model;
 
+import lombok.Getter;
+
+@Getter
 public enum PaymentStatus {
     SUCCEEDED("succeeded"),
     INCOMPLETE("incomplete"),
@@ -14,7 +17,4 @@ public enum PaymentStatus {
         this.status = status;
     }
 
-    public String getStatus() {
-        return status;
-    }
 }

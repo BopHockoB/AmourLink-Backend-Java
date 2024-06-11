@@ -11,15 +11,13 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
-public class Degree {
-    @Id
-    @GeneratedValue
-    private UUID degreeId;
-    private String degreeType;
-    private String degreeName;
-    private String schoolName;
+public class Answer {
+    @Id @GeneratedValue
+    private UUID answerId;
+    private String answer;
+
 }

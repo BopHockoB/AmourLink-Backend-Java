@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Currency;
 import java.util.Date;
 import java.util.UUID;
 
@@ -23,7 +22,7 @@ public class Payment {
     private double amount;
 
     private String stripeCustomerId;
-    private String stripePaymentId;
+    private String stripeInvoiceId;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date paymentDate;
@@ -32,7 +31,7 @@ public class Payment {
     private Subscription subscription;
 
     @Enumerated(EnumType.STRING)
-    private PaymentStatus paymentStatus;
+    private String paymentStatus;
 
     @Enumerated(EnumType.STRING)
     private PaymentType paymentType;

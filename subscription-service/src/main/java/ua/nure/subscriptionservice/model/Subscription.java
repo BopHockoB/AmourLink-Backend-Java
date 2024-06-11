@@ -1,7 +1,10 @@
 package ua.nure.subscriptionservice.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
@@ -17,10 +20,14 @@ public class Subscription {
     @GeneratedValue
     private UUID subscriptionId;
     private UUID userId;
-    private String stripeCustomerId;
+
     private String stripeSubscriptionId;
 
-    @OneToMany(mappedBy = "subscription")
+    private SubscriptionStatus status;
+
+    @OneToMany(mappedBy = "subscription",
+    cascade = CascadeType.ALL)
+
     private List<Payment> payments;
 
     @ManyToOne
@@ -35,8 +42,15 @@ public class Subscription {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastPaymentDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date nextPaymentDate;
+    private Date canceledAt;
 
+    public enum SubscriptionStatus{
+        ACTIVE,
+        DISABLE,
+        PENDING,
+        CANCELLED,
+        EXPIRED
+
+    }
 
 }

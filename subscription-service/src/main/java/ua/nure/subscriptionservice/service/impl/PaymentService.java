@@ -49,7 +49,6 @@ public class PaymentService implements IPaymentService {
                 .map(payment -> {
                     payment.setUserId(updatedPayment.getUserId());
                     payment.setStripeCustomerId(updatedPayment.getStripeCustomerId());
-                    payment.setStripePaymentId(updatedPayment.getStripePaymentId());
                     payment.setAmount(updatedPayment.getAmount());
                     payment.setPaymentDate(updatedPayment.getPaymentDate());
                     payment.setSubscription(updatedPayment.getSubscription());

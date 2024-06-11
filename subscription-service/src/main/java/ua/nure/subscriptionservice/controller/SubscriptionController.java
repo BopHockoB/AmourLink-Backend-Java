@@ -3,10 +3,9 @@ package ua.nure.subscriptionservice.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
-import ua.nure.subscriptionservice.exception.SubscriptionNotFoundException;
 import ua.nure.subscriptionservice.model.Subscription;
+import ua.nure.subscriptionservice.request.PaymentRequest;
 import ua.nure.subscriptionservice.resolver.UserId;
 import ua.nure.subscriptionservice.response.ResponseBody;
 import ua.nure.subscriptionservice.service.ISubscriptionService;
@@ -14,7 +13,7 @@ import ua.nure.subscriptionservice.service.ISubscriptionService;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/subscription-service/subscription")
+@RequestMapping("/api/subscription-service/subscriptions")
 @RequiredArgsConstructor
 public class SubscriptionController {
 
@@ -27,7 +26,7 @@ public class SubscriptionController {
         ));
     }
 
-    @GetMapping("/byUserId")
+    @GetMapping("/by-user-id")
     public ResponseEntity<ResponseBody> findSubscriptionsByUserId(@UserId UUID userId) {
         return ResponseEntity.ok(new ResponseBody(subscriptionService.findSubscriptionByUserId(userId)));
     }
@@ -39,7 +38,7 @@ public class SubscriptionController {
         ));
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<ResponseBody> createSubscription(@RequestBody Subscription subscription) {
         return ResponseEntity.ok(new ResponseBody(
                 subscriptionService.createSubscription(subscription
@@ -60,6 +59,10 @@ public class SubscriptionController {
                 )));
     }
 
-
-
+    @PostMapping
+    public ResponseEntity<ResponseBody> subscribe(@RequestBody PaymentRequest paymentRequest, @UserId UUID userId) {
+        return ResponseEntity.ok(new ResponseBody(
+                subscriptionService.subscribe(paymentRequest, userId)
+        ));
+    }
 }

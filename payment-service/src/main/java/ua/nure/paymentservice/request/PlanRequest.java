@@ -5,11 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+
+
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChargeRequest {
-    private String planId;
-    private String customerId;
+@Builder
+public class PlanRequest {
+
+    private String name;
+    private String interval;
+    private Double amount;
 }

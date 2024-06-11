@@ -10,14 +10,14 @@ import ua.nure.securityservice.repository.UserRepository;
 
 @Service
 @RequiredArgsConstructor
-public class AmourLinkUserDetailsService implements UserDetailsService {
+public class AmourlinkUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username)
-                .map(AmourLinkUserDetails::new)
+                .map(AmourlinkUserDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException("There's no such user: " + username));
     }
 }

@@ -1,7 +1,7 @@
 package ua.nure.subscriptionservice.service;
 
-import ua.nure.subscriptionservice.exception.SubscriptionNotFoundException;
 import ua.nure.subscriptionservice.model.Subscription;
+import ua.nure.subscriptionservice.request.PaymentRequest;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,4 +18,6 @@ public interface ISubscriptionService {
     Subscription updateSubscription(Subscription updatedSubscription);
 
     Subscription findSubscriptionByUserId(UUID userId);
+
+    Subscription subscribe(PaymentRequest paymentRequest, UUID userId);
 }

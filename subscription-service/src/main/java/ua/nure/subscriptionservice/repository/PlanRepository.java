@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface PlanRepository extends JpaRepository<Plan, UUID> {
-    Optional<Plan> findByPlanName(String name);
+    Optional<Plan> findByName(String name);
 }

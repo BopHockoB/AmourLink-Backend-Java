@@ -35,11 +35,10 @@ public class UserIdArgumentResolver implements HandlerMethodArgumentResolver {
      * @param webRequest the current native web request
      * @param binderFactory the factory for creating WebDataBinder instances
      * @return the resolved argument value, which is the user ID retrieved from the HttpServletRequest attribute
-     * @throws Exception if there is an error during the resolution process
      */
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory){
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         return request.getAttribute("userId");
     }

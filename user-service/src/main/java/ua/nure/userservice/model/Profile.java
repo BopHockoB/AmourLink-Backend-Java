@@ -24,11 +24,12 @@ public class Profile {
     @Column(name = "user_id")
     private UUID profileId;
 
+    private String firstname;
+    private String lastname;
+
     @Column(columnDefinition = "TEXT", length = 1000)
     private String bio;
     private Integer age;
-    private String firstname;
-    private String lastname;
     private Integer height;
     private String occupation;
     private String nationality;
@@ -57,6 +58,14 @@ public class Profile {
     @OneToMany
     @JoinColumn(name = "user_id")
     private List<Picture> pictures;
+
+    @ManyToMany()
+    @JoinTable(
+            name = "user_details_info",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "info_id")}
+    )
+    private List<Info> infos;
 
     @ManyToMany()
     @JoinTable(

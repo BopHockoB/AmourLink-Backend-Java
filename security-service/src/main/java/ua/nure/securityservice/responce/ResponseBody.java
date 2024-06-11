@@ -26,4 +26,12 @@ public class ResponseBody {
     public ResponseBody(Object body) {
         this.result = body;
     }
+
+
+    public enum ResponseType {
+
+        SUCCESS, VALIDATION_FAILED, HTTP_ERROR
+
+    }
+
 }

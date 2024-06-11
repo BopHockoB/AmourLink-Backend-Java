@@ -34,7 +34,7 @@ public class PlanService implements IPlanService {
 
     @Override
     public Plan findPlanByName(String name) {
-        return planRepository.findByPlanName(name).orElseThrow(() -> {
+        return planRepository.findByName(name).orElseThrow(() -> {
             log.warn("Plan {} not found", name);
             return new PlanNotFoundException("Plan " + name + " not found");
         });
@@ -50,9 +50,9 @@ public class PlanService implements IPlanService {
     public Plan updatePlan(Plan updatedPlan) {
             return planRepository.findById(updatedPlan.getPlanId())
                 .map(plan -> {
-                    plan.setPlanName(updatedPlan.getPlanName());
-                    plan.setPlanDescription(updatedPlan.getPlanDescription());
-                    plan.setPlanPrice(updatedPlan.getPlanPrice());
+                    plan.setName(updatedPlan.getName());
+                    plan.setDescription(updatedPlan.getDescription());
+                    plan.setPrice(updatedPlan.getPrice());
                     return planRepository.save(plan);
                 }).orElseThrow(  () -> {
                     log.warn("Plan {} not found", updatedPlan.getPlanId());

@@ -18,10 +18,11 @@ public class Plan {
 
     @Id @GeneratedValue
     private UUID planId;
+    private String stripeId;
 
-    private String planName;
-    private String planDescription;
-    private double planPrice;
+    private String name;
+    private String description;
+    private double price;
 
     @OneToMany(mappedBy = "plan", fetch = FetchType.LAZY)
     private List<Subscription> subscriptions;

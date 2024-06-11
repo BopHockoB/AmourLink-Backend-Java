@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import ua.nure.securityservice.security.AmourLinkUserDetailsService;
+import ua.nure.securityservice.security.AmourlinkUserDetailsService;
 
 import java.io.IOException;
 
@@ -21,7 +21,7 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final AmourLinkUserDetailsService amourLinkUserDetailsService;
+    private final AmourlinkUserDetailsService amourLinkUserDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,

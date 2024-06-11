@@ -1,4 +1,4 @@
-package ua.nure.paymentservice.request;
+package ua.nure.subscriptionservice.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

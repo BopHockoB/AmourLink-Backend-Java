@@ -7,18 +7,19 @@ import ua.nure.securityservice.model.User;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AmourLinkUserDetails implements UserDetails {
+public class AmourlinkUserDetails implements UserDetails {
 
-    private String userName;
-    private String password;
-    private List<GrantedAuthority> authorities;
+    private final String email;
+    private final String password;
+    private final List<GrantedAuthority> authorities;
 
-    public AmourLinkUserDetails(User user) {
+    public AmourlinkUserDetails(User user) {
+        email = user.getEmail();
+        password = user.getPassword();
 
         if (!user.getRoles().isEmpty()) {
             authorities = user.getRoles().stream()
@@ -42,7 +43,7 @@ public class AmourLinkUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return email;
     }
 
     @Override

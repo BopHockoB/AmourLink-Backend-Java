@@ -14,6 +14,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import ua.nure.securityservice.security.exceptionHandling.AmourlinkAuthenticationEntryPoint;
+import ua.nure.securityservice.security.exceptionHandling.AmourlinkBearerTokenAccessDeniedHandler;
+import ua.nure.securityservice.security.exceptionHandling.AmourlinkBearerTokenAuthenticationEntryPoint;
 import ua.nure.securityservice.security.jwt.JwtAuthenticationFilter;
 
 
@@ -26,7 +29,7 @@ public class SecurityConfig {
     private static final String[] SECURED_URLs = {};
 
     private static final String[] UN_SECURED_URLs = {
-            "/login/**",
+            "/login",
             "/authenticate/**",
             "/api/security-service/users/add",
             "/swagger-ui/**",
@@ -41,9 +44,12 @@ public class SecurityConfig {
             "/configuration/security"};
 
     private final JwtAuthenticationFilter authenticationFilter;
-    private final AmourLinkUserDetailsService amourLinkUserDetailsService;
+    private final AmourlinkUserDetailsService amourLinkUserDetailsService;
     private final PasswordEncoder passwordEncoder;
 
+    private final AmourlinkAuthenticationEntryPoint amourlinkAuthenticationEntryPoint;
+//    private final AmourlinkBearerTokenAuthenticationEntryPoint amourlinkBearerTokenAuthenticationEntryPoint;
+//    private final AmourlinkBearerTokenAccessDeniedHandler amourlinkBearerTokenAccessDeniedHandler;
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
@@ -68,8 +74,11 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
+                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .httpBasic(httpBasic -> httpBasic.authenticationEntryPoint(amourlinkAuthenticationEntryPoint));
+//                .oauth2ResourceServer().jwt().and()
+//                .authenticationEntryPoint(amourlinkBearerTokenAuthenticationEntryPoint)
+//                .accessDeniedHandler(amourlinkBearerTokenAccessDeniedHandler);
         return http.build();
     }
 
