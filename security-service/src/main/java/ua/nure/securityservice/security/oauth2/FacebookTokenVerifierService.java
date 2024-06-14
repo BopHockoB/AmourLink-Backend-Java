@@ -37,6 +37,7 @@ public class FacebookTokenVerifierService {
 
             user = User.builder()
                     .accountType(User.AccountType.FACEBOOK)
+                    .enabled(true)
                     .email(userEmail)
                     .password(UUID.randomUUID().toString())
                     .build();
@@ -83,8 +84,7 @@ public class FacebookTokenVerifierService {
 
     public User findUser(String userEmail){
         try {
-            User user = userService.findUser(userEmail);
-            return user;
+            return userService.findUser(userEmail);
         } catch (UserNotFoundException e) {
             return null;
         }

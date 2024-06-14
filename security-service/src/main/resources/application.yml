@@ -1,6 +1,11 @@
 server:
   port: 8081
 
+application:
+  host: localhost:8081
+  activation-redirect:
+    url: http://localhost:8081/login
+
 spring:
   application:
     name: security-service
@@ -8,6 +13,9 @@ spring:
   jwt:
     jwtExpirationInMs: 1800000
     secret: 36763979244226452948404D635164546A576D5A7134D43777217A25432A462D
+
+  kafka:
+    bootstrap-servers: localhost:9092
 
   cloud:
     config:
@@ -31,9 +39,6 @@ spring:
 #    service-url:
 #      defaultZone: http://localhost:8761/eureka
 
-
-oauth2:
-  baseUrl: https://api.github.com/user/emails\
 
 google:
   client:

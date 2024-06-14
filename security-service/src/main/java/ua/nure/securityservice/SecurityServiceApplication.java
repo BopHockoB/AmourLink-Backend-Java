@@ -28,6 +28,7 @@ public class SecurityServiceApplication {
             var admin = User.builder()
                     .email("admin@mail.com")
                     .password("password")
+                    .enabled(true)
                     .build();
             try {
                 userService.createUser(admin);

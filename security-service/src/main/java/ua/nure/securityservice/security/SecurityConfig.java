@@ -32,6 +32,7 @@ public class SecurityConfig {
             "/login",
             "/authenticate/**",
             "/api/security-service/users/add",
+            "/api/security-service/activation-token/activate/**",
             "/swagger-ui/**",
             "/swagger-ui.html",
             "/swagger-resources/**",

@@ -1,4 +1,4 @@
-package ua.nure.securityservice.security;
+package ua.nure.securityservice.controller;
 
 
 import lombok.RequiredArgsConstructor;
@@ -17,13 +17,12 @@ import ua.nure.securityservice.security.jwt.JwtService;
 import ua.nure.securityservice.security.oauth2.FacebookTokenVerifierService;
 import ua.nure.securityservice.security.oauth2.GoogleTokenVerifierService;
 
-import java.net.http.HttpResponse;
 import java.security.GeneralSecurityException;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/login")
-public class SecurityController {
+public class LoginController {
     private final JwtService jwtService;
     private final GoogleTokenVerifierService googleTokenVerifierService;
     private final FacebookTokenVerifierService facebookTokenVerifierService;

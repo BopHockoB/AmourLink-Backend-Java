@@ -23,6 +23,7 @@ public class User {
     private UUID userId;
     private String email;
     private String password;
+    private boolean enabled;
 
     @Enumerated(EnumType.STRING)
     private AccountType accountType;

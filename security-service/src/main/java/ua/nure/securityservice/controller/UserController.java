@@ -26,6 +26,7 @@ public class UserController {
     public ResponseEntity<ResponseBody> add(@RequestBody @Valid UserDTO userDTO) {
         User user = new User(userDTO);
         user.setAccountType(User.AccountType.LOCAL);
+        user.setEnabled(false);
         ResponseBody responseBody = new ResponseBody(userService.createUser(user));
         return ResponseEntity.ok(responseBody);
     }

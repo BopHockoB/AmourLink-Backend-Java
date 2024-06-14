@@ -25,7 +25,7 @@ public class EmailService implements IEmailService {
             helper.setFrom("Sender Name <noreply@amourlink.com>");
             helper.setTo(emailDetails.to());
             helper.setSubject(emailDetails.subject());
-            helper.setText(emailDetails.text());
+            helper.setText(emailDetails.text(), true);
         } catch (MessagingException e) {
             log.warn(e.getMessage());
         }

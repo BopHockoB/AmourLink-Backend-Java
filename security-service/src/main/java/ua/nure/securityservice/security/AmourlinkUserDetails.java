@@ -16,10 +16,12 @@ public class AmourlinkUserDetails implements UserDetails {
     private final String email;
     private final String password;
     private final List<GrantedAuthority> authorities;
+    private final boolean enabled;
 
     public AmourlinkUserDetails(User user) {
         email = user.getEmail();
         password = user.getPassword();
+        enabled = user.isEnabled();
 
         if (!user.getRoles().isEmpty()) {
             authorities = user.getRoles().stream()
@@ -63,6 +65,6 @@ public class AmourlinkUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }

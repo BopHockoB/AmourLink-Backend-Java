@@ -56,6 +56,7 @@ public class GoogleTokenVerifierService {
 
             user = User.builder()
                     .accountType(User.AccountType.GOOGLE)
+                    .enabled(true)
                     .email(payload.getEmail())
                     .password(UUID.randomUUID().toString())
                     .build();
@@ -100,8 +101,7 @@ public class GoogleTokenVerifierService {
         log.debug("Finding user with email: {}", userEmail);
 
         try {
-            User user = userService.findUser(userEmail);
-            return user;
+            return userService.findUser(userEmail);
         } catch (UserNotFoundException e) {
             log.error("User not found with email: {}", userEmail, e);
             return null;

@@ -2,8 +2,7 @@ package ua.nure.securityservice.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.nure.securityservice.exception.UserAlreadyExistsException;
@@ -16,12 +15,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService implements IUserService {
-    private static final Logger log = LoggerFactory.getLogger(UserService.class);
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ActivationService activationService;
+
 
     @Override
     public User createUser(User user) throws UserAlreadyExistsException {
@@ -32,7 +34,12 @@ public class UserService implements IUserService {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        if (savedUser.getAccountType() == User.AccountType.LOCAL)
+            activationService.createActivationToken(savedUser.getEmail());
+
+        return savedUser;
     }
 
 
