@@ -42,8 +42,16 @@ public class UserServiceExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(ProfileNotFoundException.class)
+    @ExceptionHandler(PictureNotFoundException.class)
     public ResponseBody pictureNotFound(ProfileNotFoundException ex){
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", ex.getMessage());
+        return new ResponseBody(ResponseBody.ResponseType.HTTP_ERROR, null, errors);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(TagNotFoundException.class)
+    public ResponseBody tagNotFound(TagNotFoundException ex){
         Map<String, String> errors = new HashMap<>();
         errors.put("error", ex.getMessage());
         return new ResponseBody(ResponseBody.ResponseType.HTTP_ERROR, null, errors);

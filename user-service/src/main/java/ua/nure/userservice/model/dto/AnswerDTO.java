@@ -11,8 +11,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PictureDTO {
+public class AnswerDTO {
     private UUID id;
-    private String pictureUrl;
-    private int position;
+    private String answer;
 }

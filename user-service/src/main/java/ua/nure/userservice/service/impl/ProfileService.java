@@ -9,6 +9,7 @@ import ua.nure.userservice.client.MediaServiceClient;
 import ua.nure.userservice.exception.PictureNotFoundException;
 import ua.nure.userservice.exception.ProfileAlreadyExistsException;
 import ua.nure.userservice.exception.ProfileNotFoundException;
+import ua.nure.userservice.exception.TagNotFoundException;
 import ua.nure.userservice.model.Picture;
 import ua.nure.userservice.model.Profile;
 import ua.nure.userservice.model.Tag;
@@ -72,7 +73,7 @@ public class ProfileService implements IProfileService {
     }
 
     @Override
-    public Picture addImageToProfile(int position, MultipartFile image, UUID userId) throws PictureNotFoundException {
+    public Profile addImageToProfile(int position, MultipartFile image, UUID userId) throws PictureNotFoundException {
 
         Profile profile = this.findProfile(userId);
         log.info("Updating user's profile {} images", userId);
@@ -99,11 +100,10 @@ public class ProfileService implements IProfileService {
         log.info("Added new picture {} to position {}", imageUrl, picture.getPosition());
 
 
-        return picture;
+        return picture.getProfile();
     }
 
     @Override
-    @Transactional
     public Profile addTagToProfile(String tagName, UUID userId) {
         Profile profile = findProfile(userId);
 
@@ -118,4 +118,14 @@ public class ProfileService implements IProfileService {
         return profileRepository.save(profile);
     }
 
+    @Override
+    public void unassignTag(UUID tagId, UUID userId){
+        Profile profile = profileRepository.findById(userId).orElseThrow(()->{
+            log.warn("Tag {} not found", tagId);
+            return new TagNotFoundException("Tag" + tagId + " not found");
+        });
+
+        profile.getTags().remove(tagId);
+        profileRepository.save(profile);
+    }
 }

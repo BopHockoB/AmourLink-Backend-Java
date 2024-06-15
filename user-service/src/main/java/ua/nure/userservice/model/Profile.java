@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.locationtech.jts.geom.Point;
-import ua.nure.userservice.model.dto.ProfileDTO;
 
 import java.util.List;
 import java.util.UUID;
@@ -75,14 +74,4 @@ public class Profile {
     )
     private List<Tag> tags;
 
-    public Profile(ProfileDTO profileDTO) {
-        this.nationality = profileDTO.getNationality();
-        this.occupation = profileDTO.getOccupation();
-        this.height = profileDTO.getHeight();
-        this.bio = profileDTO.getBio();
-        this.lastname = profileDTO.getLastname();
-        this.firstname = profileDTO.getFirstname();
-        this.age = profileDTO.getAge();
-        this.gender = profileDTO.getGender();
-    }
 }
