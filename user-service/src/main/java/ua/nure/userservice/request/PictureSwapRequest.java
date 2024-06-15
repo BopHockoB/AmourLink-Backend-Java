@@ -1,4 +1,4 @@
-package ua.nure.userservice.model.dto;
+package ua.nure.userservice.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +11,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PictureDTO {
-    private UUID id;
-    private String pictureUrl;
-    private int position;
+public class PictureSwapRequest {
+    private UUID firstPictureId;
+    private UUID secondPictureId;
 }

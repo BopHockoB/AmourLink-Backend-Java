@@ -5,14 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PictureDTO {
+public class DegreeDTO {
     private UUID id;
-    private String pictureUrl;
-    private int position;
+    private String schoolName;
+    private String degreeType;
+    private Date startYear;
 }

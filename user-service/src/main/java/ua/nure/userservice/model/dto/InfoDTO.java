@@ -5,14 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PictureDTO {
+public class InfoDTO {
     private UUID id;
-    private String pictureUrl;
-    private int position;
+    private String title;
+    private List<AnswerDTO> answers;
 }
