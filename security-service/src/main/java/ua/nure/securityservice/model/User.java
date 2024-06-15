@@ -28,6 +28,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
 
+    @Enumerated(EnumType.STRING)
+    private AccountType accountType;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 

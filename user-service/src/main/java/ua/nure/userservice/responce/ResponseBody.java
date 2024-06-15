@@ -30,4 +30,8 @@ public class ResponseBody {
     public enum ResponseType {
         SUCCESS, VALIDATION_FAILED, HTTP_ERROR
     }
+
+    public enum ResponseType {
+        SUCCESS, VALIDATION_FAILED, HTTP_ERROR
+    }
 }
