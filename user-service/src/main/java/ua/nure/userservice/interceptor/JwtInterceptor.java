@@ -6,7 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import ua.nure.userservice.util.JwtUtil;
+import ua.nure.userservice.security.jwt.JwtService;
+
 
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class JwtInterceptor implements HandlerInterceptor {
 
-    private final JwtUtil jwtUtil;
+    private final JwtService jwtService;
 
     @Override
     public boolean preHandle(HttpServletRequest request,
@@ -29,7 +30,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         try {
             String token = extractToken(request);
             if (isValidToken(token)) {
-                UUID userId = jwtUtil.extractIdFromToken(token);
+                UUID userId = jwtService.extractIdFromToken(token);
                 request.setAttribute("userId", userId);  // Set user ID to request attribute
                 return true;
             }
@@ -52,6 +53,6 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     // Checks if the token is valid
     private boolean isValidToken(String token) {
-        return token != null && !jwtUtil.isTokenExpired(token);
+        return token != null && !jwtService.isTokenExpired(token);
     }
 }

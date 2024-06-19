@@ -28,13 +28,12 @@ public class User {
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
 
-    @Enumerated(EnumType.STRING)
-    private AccountType accountType;
-
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,
+                cascade = { CascadeType.PERSIST,
+                    CascadeType.MERGE})
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),

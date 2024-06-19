@@ -3,6 +3,7 @@ package ua.nure.subscriptionservice.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.nure.subscriptionservice.model.Payment;
 import ua.nure.subscriptionservice.resolver.UserId;
@@ -18,14 +19,16 @@ public class PaymentController {
 
     private final IPaymentService paymentService;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/get-all")
-    public ResponseEntity<ResponseBody> findAllPlans(){
+    public ResponseEntity<ResponseBody> findAllPayments(){
         return ResponseEntity.ok(new ResponseBody
                 (paymentService.findAllPayments()));
     }
 
+    @PreAuthorize("!hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_PREMIUM_USER' )")
     @GetMapping("/by-user-id")
-    public ResponseEntity<ResponseBody> findSubscriptionsByUserId(@UserId UUID userId) {
+    public ResponseEntity<ResponseBody> findPaymentsByUserId(@UserId UUID userId) {
         return ResponseEntity.ok(new ResponseBody(paymentService.findPaymentsByUserId(userId)));
     }
 
@@ -37,19 +40,19 @@ public class PaymentController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<ResponseBody> createPlan(@RequestBody Payment payment) {
+    public ResponseEntity<ResponseBody> createPayment(@RequestBody Payment payment) {
         return ResponseEntity.ok(new ResponseBody(
                 paymentService.createPayment(payment)));
     }
 
     @DeleteMapping("/{paymentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletePlan(@PathVariable UUID paymentId) {
+    public void deletePayment(@PathVariable UUID paymentId) {
         paymentService.deletePayment(paymentId);
     }
 
     @PutMapping("/{paymentId}")
-    public ResponseEntity<ResponseBody> updatePlan(@PathVariable UUID paymentId, @RequestBody Payment updatedPayment) {
+    public ResponseEntity<ResponseBody> updatePayment(@PathVariable UUID paymentId, @RequestBody Payment updatedPayment) {
         updatedPayment.setPaymentId(paymentId);
         return ResponseEntity.ok(new ResponseBody(
                 paymentService.updatePayment(updatedPayment)));

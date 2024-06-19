@@ -8,10 +8,12 @@ import ua.nure.securityservice.model.User;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class AmourlinkUserDetails implements UserDetails {
 
+    private UUID userId;
     private final String email;
     private final String password;
     private final List<GrantedAuthority> authorities;

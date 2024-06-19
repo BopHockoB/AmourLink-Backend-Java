@@ -23,7 +23,6 @@ import ua.nure.securityservice.security.jwt.JwtAuthenticationFilter;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-//@EnableMethodSecurity
 public class SecurityConfig {
 
     private static final String[] SECURED_URLs = {};
@@ -32,7 +31,7 @@ public class SecurityConfig {
             "/login",
             "/authenticate/**",
             "/api/security-service/users/add",
-            "/api/security-service/activation-token/activate/**",
+            "/api/security-service/activation-token/**",
             "/swagger-ui/**",
             "/swagger-ui.html",
             "/swagger-resources/**",

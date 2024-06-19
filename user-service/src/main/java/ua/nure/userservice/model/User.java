@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ua.nure.userservice.model.dto.UserDTO;
+
 
 import java.util.Date;
 import java.util.Set;
@@ -23,14 +23,17 @@ public class User {
     private UUID userId;
     private String email;
     private String password;
+    private boolean enabled;
 
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date startDate;
+    private Date createdAt;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = { CascadeType.PERSIST,
+                    CascadeType.MERGE})
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -44,8 +47,4 @@ public class User {
         FACEBOOK
     }
 
-    public User(UserDTO userDTO) {
-        this.email = userDTO.getEmail();
-        this.password = userDTO.getPassword();
-    }
 }

@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import ua.nure.securityservice.exception.UserAlreadyExistsException;
+import ua.nure.securityservice.model.Role;
 import ua.nure.securityservice.model.User;
 import ua.nure.securityservice.security.jwt.JwtService;
 import ua.nure.securityservice.service.IUserService;
@@ -32,9 +33,12 @@ public class SecurityServiceApplication {
                     .build();
             try {
                 userService.createUser(admin);
+                userService.unassignRole(admin.getEmail() ,Role.RoleEnum.INCOMPLETE_USER.name());
             } catch (UserAlreadyExistsException e) {
                 log.warn("Mock user {} already exists", admin.getEmail());
             } finally {
+
+                userService.assignRole(admin.getEmail(), Role.RoleEnum.ADMIN.name());
                 System.out.println("Admin token: " + jwtService.generateToken(admin.getEmail()));
             }
 

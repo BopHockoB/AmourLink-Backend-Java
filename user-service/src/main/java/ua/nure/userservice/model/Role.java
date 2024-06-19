@@ -19,4 +19,11 @@ public class Role {
     @Id @GeneratedValue
     UUID roleId;
     String roleName;
+
+    public enum RoleEnum{
+        ADMIN,
+        INCOMPLETE_USER,
+        USER,
+        PREMIUM_USER
+    }
 }
