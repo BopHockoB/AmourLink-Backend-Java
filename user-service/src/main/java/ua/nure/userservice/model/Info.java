@@ -1,9 +1,6 @@
 package ua.nure.userservice.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,5 +20,6 @@ public class Info {
     private String title;
 
     @OneToMany
+    @JoinColumn(name = "info_id")
     private List<Answer> answers;
 }

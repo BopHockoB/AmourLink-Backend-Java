@@ -19,6 +19,6 @@ public class Hobby {
 
     @Id
     @GeneratedValue
-    private UUID hobby_id;
-    private String hobby_name;
+    private UUID hobbyId;
+    private String hobbyName;
 }

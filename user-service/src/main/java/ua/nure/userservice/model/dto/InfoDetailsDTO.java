@@ -4,18 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ua.nure.userservice.model.compositePk.InfoDetailsKey;
 
-import java.util.Date;
 import java.util.UUID;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DegreeDTO {
+@Builder
+public class InfoDetailsDTO {
+
+    private AnswerDTO answer;
+    private InfoDTO info;
     private UUID id;
-    private String schoolName;
-    private String degreeName;
-    private String degreeType;
-    private Date startYear;
 }

@@ -19,6 +19,6 @@ public class Language {
 
     @Id
     @GeneratedValue
-    private UUID language_id;
-    private String language_name;
+    private UUID languageId;
+    private String languageName;
 }

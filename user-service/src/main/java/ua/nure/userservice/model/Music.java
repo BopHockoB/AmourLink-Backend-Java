@@ -19,7 +19,7 @@ public class Music {
 
     @Id
     @GeneratedValue
-    private UUID music_id;
+    private UUID musicId;
     private String spotifyId;
     private String title;
     private String artistName;

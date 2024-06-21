@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -14,7 +15,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class TagDTO implements Serializable {
 
+    private UUID id;
     @NotEmpty
-    String tagName;
+    private String tagName;
 
 }

@@ -1,0 +1,55 @@
+##spring:
+##  application:
+##    name: media-service
+##  config:
+##    import: optional:configserver:http://localhost:8888
+#
+#
+##
+##eureka:
+##  instance:
+##    hostname: localhost
+##  client:
+##    service-url:
+##      defaultZone: http://localhost:8761/eureka
+#
+#server:
+#  port: 8080
+#
+#spring:
+#  application:
+#    name: user-service
+#
+#  servlet:
+#    multipart:
+#      max-file-size: 5MB
+#      max-request-size: 6MB
+#
+#  jwt:
+#    jwtExpirationInMs: 1800000
+#    secret: 36763979244226452948404D635164546A576D5A7134D43777217A25432A462D
+#
+#  cloud:
+#    config:
+#      enabled: false
+#
+#  kafka:
+#    bootstrap-servers: localhost:9092
+#
+#
+#  datasource:
+#    url: jdbc:mysql://mysql:3306/amourlink
+#    username: root
+#    password: 123
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#
+#  jpa:
+#    database: mysql
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: update
+#
+#
+#application:
+#  config:
+#    media-service-url: http://media-service:8070/api/media-service/images

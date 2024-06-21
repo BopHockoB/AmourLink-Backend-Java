@@ -1,12 +1,15 @@
 package ua.nure.userservice.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.locationtech.jts.geom.Point;
+import ua.nure.userservice.model.serializer.PointSerializer;
 
 import java.util.List;
 import java.util.UUID;
@@ -32,7 +35,11 @@ public class Profile {
     private Integer height;
     private String occupation;
     private String nationality;
-    private Point last_location;
+
+//    @JsonSerialize(using = PointSerializer.class)
+    @JsonIgnore
+    private Point lastLocation;
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
@@ -50,21 +57,17 @@ public class Profile {
     @JoinColumn(name = "user_id")
     private List<Hobby> hobbies;
 
-    @OneToMany
+    @OneToOne
     @JoinColumn(name = "user_id")
-    private List<Degree> degrees;
+    private Degree degree;
 
     @OneToMany
     @JoinColumn(name = "user_id")
     private List<Picture> pictures;
 
-    @ManyToMany()
-    @JoinTable(
-            name = "user_details_info",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "info_id")}
-    )
-    private List<Info> infos;
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<InfoDetails> infoDetails;
 
     @ManyToMany()
     @JoinTable(
