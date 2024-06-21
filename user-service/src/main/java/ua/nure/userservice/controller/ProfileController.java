@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ua.nure.userservice.model.Tag;
@@ -31,13 +30,11 @@ public class ProfileController {
     private final IPictureService pictureService;
     private final ProfileMapper profileMapper;
 
-    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/add")
-    public ResponseEntity<ResponseBody> add(@RequestBody @Valid ProfileDTO profileDTO,
-                                            @UserId UUID userId){
-        Profile profile = profileMapper.profileDtoToProfile(profileDTO);
+    public ResponseEntity<ResponseBody> add(@RequestBody @Valid ProfileDTO profileDTO, @UserId UUID userId){
+        Profile profile = profileMapper.profileDTOToProfile(profileDTO);
 
-        ProfileDTO resultProfileDTO = profileMapper.profileToProfileDto(
+        ProfileDTO resultProfileDTO = profileMapper.profileToProfileDTO(
                 profileService.createProfile(profile, userId)
         );
 
@@ -45,11 +42,10 @@ public class ProfileController {
         return ResponseEntity.ok(responseBody);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/get-all")
     public ResponseEntity<ResponseBody> getAllUsers(){
 
-        List<ProfileDTO> profileDTOList = profileMapper.profileListToProfileDtoList(
+        List<ProfileDTO> profileDTOList = profileMapper.profileListToProfileDTOList(
                 profileService.findAllProfile()
         );
 
@@ -57,25 +53,20 @@ public class ProfileController {
         return new ResponseEntity<>(responseBody, HttpStatus.FOUND);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or " +
-            "{#userId == #userIdToCheck and hasAnyRole('ROLE_USER', 'ROLE_PREMIUM_USER')}")
     @GetMapping("/{userId}")
-    public ResponseEntity<ResponseBody> getByUserId(@PathVariable("userId") UUID userId,
-                                                    @UserId UUID userIdToCheck){
-        ProfileDTO profileDTO = profileMapper.profileToProfileDto(
+    public ResponseEntity<ResponseBody> getByUserId(@PathVariable("userId") UUID userId){
+        ProfileDTO profileDTO = profileMapper.profileToProfileDTO(
                 profileService.findProfile(userId)
         );
         ResponseBody responseBody = new ResponseBody(profileDTO);
         return ResponseEntity.ok(responseBody);
     }
-    @PreAuthorize("hasRole('ROLE_ADMIN') or " +
-            "{#userId == #profileDTO.id and hasAnyRole('ROLE_USER', 'ROLE_PREMIUM_USER')}")
-    @PutMapping("/update")
-    public ResponseEntity<ResponseBody> update(@RequestBody @Valid ProfileDTO profileDTO,
-                                               @UserId UUID userId){
-        Profile profile = profileMapper.profileDtoToProfile(profileDTO);
 
-        ProfileDTO resultProfileDTO = profileMapper.profileToProfileDto(
+    @PutMapping("/update")
+    public ResponseEntity<ResponseBody> update(@RequestBody @Valid ProfileDTO profileDTO){
+        Profile profile = profileMapper.profileDTOToProfile(profileDTO);
+
+        ProfileDTO resultProfileDTO = profileMapper.profileToProfileDTO(
                 profileService.updateProfile(profile)
         );
 
@@ -83,48 +74,39 @@ public class ProfileController {
         return ResponseEntity.ok(responseBody);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     @DeleteMapping("/{userId}")
     public void delete(@PathVariable("userId") UUID userId){
         profileService.deleteProfile(userId);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER', 'ROLE_PREMIUM_USER')")
     @PostMapping(
             path ="/add-picture",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ResponseBody> addImages(@RequestParam("file") MultipartFile file,
-                                                  @RequestParam("position") int position,
-                                                  @UserId UUID userId) {
-       ProfileDTO profileDTO = profileMapper.profileToProfileDto(
-               profileService.addImageToProfile(position, file, userId)
-       );
+    public ResponseEntity<ResponseBody> addImages(@RequestParam("file") MultipartFile file, @RequestParam("position") int position, @UserId UUID userId) throws PictureNotFoundException {
+        ProfileDTO profileDTO = profileMapper.profileToProfileDTO(
+                profileService.addImageToProfile(position, file, userId)
+        );
 
-       ResponseBody responseBody = new ResponseBody(profileDTO);
-       return ResponseEntity.ok(responseBody);
+        ResponseBody responseBody = new ResponseBody(profileDTO);
+        return ResponseEntity.ok(responseBody);
 
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER', 'ROLE_PREMIUM_USER')")
     @PutMapping("/swap-pictures")
-    public void swapPicturePositions(@RequestBody UUID pictureId1,
-                                     @RequestBody UUID pictureId2,
-                                     @UserId UUID userId){
+    public void swapPicturePositions(@RequestBody UUID pictureId1, @RequestBody UUID pictureId2, @UserId UUID userId){
         pictureService.swapPositions(pictureId1, pictureId2, userId);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER', 'ROLE_PREMIUM_USER')")
     @DeleteMapping("/delete-picture/{pictureId}")
-    public void deletePicture(@PathVariable UUID pictureId) {
+    public void deletePicture(@PathVariable UUID pictureId) throws PictureNotFoundException {
         pictureService.deletePicture(pictureId);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER', 'ROLE_PREMIUM_USER')")
     @PostMapping("/add-tag")
-    public ResponseEntity<ResponseBody> addTag(@RequestBody TagDTO tagDTO,
-                                               @UserId UUID userId){
+    public ResponseEntity<ResponseBody> addTag(@RequestBody TagDTO tagDTO, @UserId UUID userId){
         Tag tag = profileMapper.tagDTOToTag(tagDTO);
-        ProfileDTO profileDTO = profileMapper.profileToProfileDto(profileService.addTagToProfile(
+        ProfileDTO profileDTO = profileMapper.profileToProfileDTO(profileService.addTagToProfile(
                 tag.getTagName(), userId
         ));
 
@@ -132,10 +114,8 @@ public class ProfileController {
         return ResponseEntity.ok(responseBody);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER', 'ROLE_PREMIUM_USER')")
     @PutMapping("/unassign-tag/{tagId}")
-    public void unassignTag(@PathVariable UUID tagId,
-                            @UserId UUID userId){
+    public void unassignTag(@PathVariable UUID tagId, @UserId UUID userId){
         profileService.unassignTag(tagId, userId);
         //TODO add trigger to automatically delete tag if nobody is assign
     }
