@@ -1,5 +1,6 @@
 package ua.nure.userservice.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -20,5 +21,9 @@ public class Language {
     @Id
     @GeneratedValue
     private UUID languageId;
+
+    @Column(unique = true,
+    nullable = false,
+    length = 40)
     private String languageName;
 }

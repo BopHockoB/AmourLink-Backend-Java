@@ -19,10 +19,12 @@ public class Picture {
     @Id
     @GeneratedValue
     private UUID pictureId;
+    @Column(nullable = false)
     private String pictureUrl;
     private Date timeAdded;
+    @Column(nullable = false)
     private Integer position; // Represents a position in pictures sequence, possible values 1-6
     @ManyToOne
-    @JoinColumn(name = "user_details_id")
+    @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
     private Profile profile;
 }

@@ -1,5 +1,6 @@
 package ua.nure.userservice.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -20,7 +21,10 @@ public class Music {
     @Id
     @GeneratedValue
     private UUID musicId;
+    @Column(nullable = false)
     private String spotifyId;
+    @Column(nullable = false)
     private String title;
+    @Column(nullable = false)
     private String artistName;
 }

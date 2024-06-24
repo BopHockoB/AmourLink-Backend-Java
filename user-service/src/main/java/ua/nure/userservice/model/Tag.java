@@ -1,10 +1,7 @@
 package ua.nure.userservice.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +20,10 @@ public class Tag {
     @Id
     @GeneratedValue
     UUID tagId;
+
+    @Column(unique = true,
+            nullable = false,
+            length = 50)
     String tagName;
 
     @ManyToMany(mappedBy = "tags")

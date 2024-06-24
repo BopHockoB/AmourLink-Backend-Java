@@ -28,8 +28,8 @@ public class SecurityConfig {
     private static final String[] SECURED_URLs = {};
 
     private static final String[] UN_SECURED_URLs = {
-            "/login",
-            "/authenticate/**",
+            "/api/security-service/login",
+            "/api/security-service/login/**",
             "/api/security-service/users/add",
             "/api/security-service/activation-token/**",
             "/swagger-ui/**",

@@ -30,6 +30,7 @@ public class SecurityServiceApplication {
                     .email("admin@mail.com")
                     .password("password")
                     .enabled(true)
+                    .accountType(User.AccountType.LOCAL)
                     .build();
             try {
                 userService.createUser(admin);

@@ -3,8 +3,10 @@ package ua.nure.userservice.model.dto.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
+import ua.nure.userservice.model.Answer;
 import ua.nure.userservice.model.Info;
 import ua.nure.userservice.model.InfoDetails;
+import ua.nure.userservice.model.dto.AnswerDTO;
 import ua.nure.userservice.model.dto.InfoDTO;
 import ua.nure.userservice.model.dto.InfoDetailsDTO;
 
@@ -21,4 +23,9 @@ public interface InfoMapper {
     InfoDetailsDTO infoDetailsToInfoDetailsDTO(InfoDetails infoDetails);
     List<InfoDetailsDTO> infoDetailsListToInfoDetailsDTOList(List<InfoDetails> infoDetailsList);
 
+    @Mapping(target = "id", source = "answerId")
+    AnswerDTO answerToAnswerDTO(Answer answerById);
+
+    @Mapping(target = "answerId", source = "id")
+    Answer answerDTOToAnswer(AnswerDTO answerDTO);
 }

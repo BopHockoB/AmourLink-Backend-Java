@@ -21,7 +21,7 @@ import java.security.GeneralSecurityException;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/login")
+@RequestMapping("/api/security-service/login")
 public class LoginController {
     private final JwtService jwtService;
     private final GoogleTokenVerifierService googleTokenVerifierService;

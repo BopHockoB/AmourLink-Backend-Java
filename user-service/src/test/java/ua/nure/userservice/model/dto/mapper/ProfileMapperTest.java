@@ -3,26 +3,22 @@ package ua.nure.userservice.model.dto.mapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ua.nure.userservice.model.*;
+import ua.nure.userservice.model.compositePk.InfoDetailsKey;
 import ua.nure.userservice.model.dto.ProfileDTO;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.offset;
 
 @Slf4j
 @SpringBootTest
@@ -94,7 +90,7 @@ public class ProfileMapperTest {
                 .build();
 
         InfoDetails infoDetails = InfoDetails.builder()
-                .infoDetailsId(profileId)
+                .infoDetailsId(new InfoDetailsKey(answer1.getAnswerId(), info.getInfoId(), profileId))
                 .info(
                         info
                 )

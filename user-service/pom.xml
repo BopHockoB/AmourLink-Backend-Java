@@ -63,6 +63,11 @@
             <artifactId>mapstruct-processor</artifactId>
             <version>${mapstruct.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-spatial</artifactId>
+            <version>6.4.4.Final</version>
+        </dependency>
 
         <dependency>
             <groupId>org.locationtech.jts</groupId>

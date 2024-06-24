@@ -7,8 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ua.nure.userservice.model.compositePk.InfoDetailsKey;
 
-import java.util.UUID;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,7 +24,7 @@ public class InfoDetails {
 
     @ManyToOne
     @MapsId("infoId")
-    @JoinColumn(name = "info_id")
+    @JoinColumn(name = "info_id", nullable = false)
     private Info info;
 
     @ManyToOne(fetch = FetchType.LAZY)

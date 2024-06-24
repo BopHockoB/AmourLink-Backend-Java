@@ -15,8 +15,14 @@ import java.util.UUID;
 @Builder
 @Entity
 public class Info {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private UUID infoId;
+
+
+    @Column(unique = true,
+            nullable = false,
+            length = 250)
     private String title;
 
     @OneToMany

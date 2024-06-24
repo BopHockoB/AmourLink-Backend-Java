@@ -22,6 +22,7 @@
         <module>security-service</module>
         <module>payment-service</module>
         <module>email-service</module>
+        <module>subscription-service</module>
     </modules>
     <properties>
         <java.version>21</java.version>

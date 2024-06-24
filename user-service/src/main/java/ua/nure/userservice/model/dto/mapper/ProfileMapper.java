@@ -3,6 +3,7 @@ package ua.nure.userservice.model.dto.mapper;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 import ua.nure.userservice.model.*;
+import ua.nure.userservice.model.compositePk.InfoDetailsKey;
 import ua.nure.userservice.model.dto.*;
 import ua.nure.userservice.util.InfoMapperUtil;
 
@@ -62,7 +63,13 @@ public interface ProfileMapper {
         Profile profile = profileBuilder.build();
 
         for (InfoDetails id : profile.getInfoDetails()) {
-            id.getInfoDetailsId().setUserId(profile.getProfileId());
+            InfoDetailsKey infoDetailsId = InfoDetailsKey.builder()
+                    .infoId(id.getInfo().getInfoId())
+                    .answerId(id.getAnswer().getAnswerId())
+                    .userId(profile.getProfileId())
+                    .build();
+
+            id.setInfoDetailsId(infoDetailsId);
         }
 
         profileBuilder.infoDetails(profile.getInfoDetails());
