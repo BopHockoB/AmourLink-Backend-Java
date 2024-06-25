@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ua.nure.subscriptionservice.exception.PlanNotFoundException;
 import ua.nure.subscriptionservice.model.Plan;
-import ua.nure.subscriptionservice.repository.PlanRepository;
+import ua.nure.subscriptionservice.service.impl.repository.PlanRepository;
 import ua.nure.subscriptionservice.service.IPlanService;
 
 import java.util.List;

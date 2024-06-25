@@ -48,9 +48,29 @@ public class ProfileService implements IProfileService {
     }
 
     @Override
-    public Profile updateProfile(Profile profile) {
-        log.info("Updating profile {}", profile.getProfileId());
-        return profileRepository.save(profile);
+    public Profile updateProfile(Profile updateProfile) {
+        log.info("Updating profile {}", updateProfile.getProfileId());
+        return profileRepository.findById(updateProfile.getProfileId())
+                .map(profile -> {
+                    profile.setProfileId(updateProfile.getProfileId());
+                    profile.setFirstname(updateProfile.getFirstname());
+                    profile.setLastname(updateProfile.getLastname());
+                    profile.setBio(updateProfile.getBio());
+                    profile.setAge(updateProfile.getHeight());
+                    profile.setOccupation(updateProfile.getOccupation());
+                    profile.setNationality(updateProfile.getNationality());
+                    profile.setGender(updateProfile.getGender());
+                    profile.setMusic(updateProfile.getMusic());
+                    profile.setLanguages(updateProfile.getLanguages());
+                    profile.setHobbies(updateProfile.getHobbies());
+                    profile.setDegree(updateProfile.getDegree());
+                    profile.setPictures(updateProfile.getPictures());
+                    profile.setInfoDetails(updateProfile.getInfoDetails());
+                    profile.setTags(updateProfile.getTags());
+                    return profileRepository.save(profile);
+                })
+                .orElseThrow(() -> new ProfileNotFoundException("Profile " + updateProfile.getProfileId() + " not found"));
+
     }
 
     @Override

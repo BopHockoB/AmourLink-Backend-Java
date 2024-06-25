@@ -10,7 +10,7 @@ import ua.nure.subscriptionservice.exception.SubscriptionCreationException;
 import ua.nure.subscriptionservice.exception.SubscriptionNotFoundException;
 import ua.nure.subscriptionservice.model.Plan;
 import ua.nure.subscriptionservice.model.Subscription;
-import ua.nure.subscriptionservice.repository.SubscriptionRepository;
+import ua.nure.subscriptionservice.service.impl.repository.SubscriptionRepository;
 import ua.nure.subscriptionservice.request.ChargeRequest;
 import ua.nure.subscriptionservice.request.CustomerCreateRequest;
 import ua.nure.subscriptionservice.request.PaymentRequest;

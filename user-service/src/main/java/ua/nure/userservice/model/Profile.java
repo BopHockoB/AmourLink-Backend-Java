@@ -4,6 +4,7 @@ package ua.nure.userservice.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -79,7 +80,7 @@ public class Profile {
 
     @OneToMany
     @JoinColumn(name = "user_id", nullable = false)
-    @NotBlank
+    @NotEmpty
     private List<Picture> pictures;
 
     @OneToMany

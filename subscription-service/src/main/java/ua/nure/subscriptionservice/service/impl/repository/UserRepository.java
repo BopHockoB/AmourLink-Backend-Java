@@ -1,4 +1,4 @@
-package ua.nure.subscriptionservice.repository;
+package ua.nure.subscriptionservice.service.impl.repository;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;

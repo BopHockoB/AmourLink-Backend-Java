@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ua.nure.subscriptionservice.repository.UserRepository;
+import ua.nure.subscriptionservice.service.impl.repository.UserRepository;
 
 
 @Service

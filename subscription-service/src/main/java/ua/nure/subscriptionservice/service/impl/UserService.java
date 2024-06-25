@@ -1,6 +1,5 @@
 package ua.nure.subscriptionservice.service.impl;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,13 +8,11 @@ import ua.nure.subscriptionservice.exception.RoleNotFoundException;
 import ua.nure.subscriptionservice.exception.UserNotFoundException;
 import ua.nure.subscriptionservice.model.Role;
 import ua.nure.subscriptionservice.model.User;
-import ua.nure.subscriptionservice.repository.RoleRepository;
-import ua.nure.subscriptionservice.repository.UserRepository;
+import ua.nure.subscriptionservice.service.impl.repository.UserRepository;
 import ua.nure.subscriptionservice.service.IRoleService;
 import ua.nure.subscriptionservice.service.IUserService;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j

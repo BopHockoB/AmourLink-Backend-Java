@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ua.nure.subscriptionservice.exception.PaymentNotFoundException;
 import ua.nure.subscriptionservice.model.Payment;
-import ua.nure.subscriptionservice.repository.PaymentRepository;
+import ua.nure.subscriptionservice.service.impl.repository.PaymentRepository;
 import ua.nure.subscriptionservice.service.IPaymentService;
 
 import java.util.List;
