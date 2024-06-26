@@ -16,7 +16,7 @@ spring:
     jwtRefreshExpirationInMs: 604800000
 
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: kafka:9092
 
 
   datasource:

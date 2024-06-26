@@ -24,35 +24,27 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ActivationService implements IActivationService {
 
+
+    private final RoleService roleService;
     @Value("${application.host}")
     private String host;
     private final ActivationTokenRepository activationTokenRepository;
     private final UserRepository userRepository;
     private final KafkaTemplate<String, EmailDetails> kafkaTemplate;
 
-    /**
-     * Activates the user account using the activation token.
-     *
-     * @param activationTokenId the ID of the activation token
-     * @throws ActivationTokenException if the activation token is not found or expired
-     */
     @Override
-    public void activateUserAccount(UUID activationTokenId) {
+    public ActivationToken findActivationToken(UUID activationTokenId) {
         ActivationToken activationToken = activationTokenRepository.findById(activationTokenId).orElseThrow(() -> {
             log.error("Activation {} token is not found", activationTokenId);
             return new ActivationTokenException("Activation " + activationTokenId + " token not found");
         });
         if (!tokenNotExpired(activationToken)) {
             log.warn("Activation token {} is expired", activationTokenId);
-            throw new ActivationTokenException("Activation " + activationTokenId + " token is expired");
+            deleteActivationToken(activationTokenId);
+            createActivationToken(activationToken.getUser().getEmail());
+            throw new ActivationTokenException("Activation " + activationTokenId + " token is expired, new activation token was sent");
         }
-
-        User user = activationToken.getUser();
-        user.setEnabled(true);
-        userRepository.save(user);
-        activationTokenRepository.deleteById(activationTokenId);
-
-        log.info("User {} activated successfully", user.getUserId());
+        return activationToken;
     }
 
     private boolean tokenNotExpired(ActivationToken activationToken) {
@@ -106,5 +98,10 @@ public class ActivationService implements IActivationService {
         // Send email details using Kafka Template
         kafkaTemplate.send("email-service-send-email", emailDetails);
 
+    }
+
+    @Override
+    public void deleteActivationToken(UUID activationTokenId) {
+        activationTokenRepository.deleteById(activationTokenId);
     }
 }

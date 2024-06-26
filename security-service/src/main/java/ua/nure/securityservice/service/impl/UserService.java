@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ua.nure.securityservice.exception.RoleNotFoundException;
 import ua.nure.securityservice.exception.UserAlreadyExistsException;
 import ua.nure.securityservice.exception.UserNotFoundException;
+import ua.nure.securityservice.model.ActivationToken;
 import ua.nure.securityservice.model.Role;
 import ua.nure.securityservice.model.User;
 import ua.nure.securityservice.repository.RoleRepository;
@@ -15,7 +16,7 @@ import ua.nure.securityservice.repository.UserRepository;
 import ua.nure.securityservice.service.IRoleService;
 import ua.nure.securityservice.service.IUserService;
 
-
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -39,10 +40,10 @@ public class UserService implements IUserService {
         Optional<User> retrievedUser = userRepository.findByEmail(user.getEmail());
         if (retrievedUser.isPresent()) {
             log.warn("User {} already exists", user.getEmail());
-            throw new UserAlreadyExistsException("A user with email" + user.getEmail() + " already exists");
+            throw new UserAlreadyExistsException("A user with email " + user.getEmail() + " already exists");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
+        user.setRoles(new HashSet<>());
         User savedUser = userRepository.save(user);
 
         if (savedUser.getAccountType() == User.AccountType.LOCAL)
@@ -89,6 +90,23 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public void activateUserAccount(UUID activationTokenId) {
+        ActivationToken activationToken = activationService.findActivationToken(activationTokenId);
+
+        User user = activationToken.getUser();
+        user.setEnabled(true);
+
+        unassignRole(user, Role.RoleEnum.INCOMPLETE_USER.name());
+        assignRole(user, Role.RoleEnum.USER.name());
+
+        userRepository.save(user);
+        activationService.deleteActivationToken(activationTokenId);
+
+        log.info("User {} activated successfully", user.getUserId());
+    }
+
+
+    @Override
     public User assignRole(String email, String roleName) {
         User user = findUser(email);
 
@@ -103,11 +121,18 @@ public class UserService implements IUserService {
 
     private User assignRole(User user, String roleName) {
         Role role = roleService.findRole(roleName);
-
-        if (role != null)
-            user.getRoles().add(role);
-        else
+        if (role == null) {
+            log.error("Role {} not found", roleName);
             throw new RoleNotFoundException("Role " + roleName + " not found");
+        }
+
+        if(user.getRoles() == null) {
+            user.setRoles(new HashSet<>());
+        }
+
+        user.getRoles().add(role);
+
+        log.info("Role {} assigned to ", roleName, user.getEmail());
 
         return userRepository.save(user);
     }

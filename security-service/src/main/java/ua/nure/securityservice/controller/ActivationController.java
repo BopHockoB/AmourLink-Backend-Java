@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.nure.securityservice.exception.ActivationTokenException;
 import ua.nure.securityservice.responce.ResponseBody;
 import ua.nure.securityservice.service.IActivationService;
+import ua.nure.securityservice.service.IUserService;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -20,12 +21,13 @@ public class ActivationController {
     @Value("${application.activation-redirect.url}")
     private String redirectUrl;
     private final IActivationService activationService;
+    private final IUserService userService;
 
     @RequestMapping("/activate/{activationTokenId}")
     public void activate(@PathVariable("activationTokenId") UUID activationTokenId,
                          HttpServletResponse response) throws IOException {
         try {
-            activationService.activateUserAccount(activationTokenId);
+           userService.activateUserAccount(activationTokenId);
 
         } catch (ActivationTokenException e){
             response.sendRedirect(redirectUrl + "?Failure");

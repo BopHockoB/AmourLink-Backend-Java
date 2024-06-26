@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import ua.nure.userservice.client.MediaServiceClient;
 import ua.nure.userservice.exception.PictureNotFoundException;
 import ua.nure.userservice.model.Picture;
-import ua.nure.userservice.repository.PictureRepository;
+import ua.nure.userservice.service.impl.repository.PictureRepository;
 import ua.nure.userservice.service.IPictureService;
 
 import java.util.UUID;

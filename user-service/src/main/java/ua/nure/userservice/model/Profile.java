@@ -3,8 +3,6 @@ package ua.nure.userservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -47,7 +45,7 @@ public class Profile {
 
 //    @JsonSerialize(using = PointSerializer.class)
     @JsonIgnore
-    @Column(nullable = false,
+    @Column(
             columnDefinition = "POINT")
     private Point lastLocation;
 
@@ -56,12 +54,12 @@ public class Profile {
     private Gender gender;
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "music_id")
     private Music music;
 
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_details_language",
             joinColumns = {@JoinColumn(name = "user_id", nullable = false)},
@@ -69,25 +67,28 @@ public class Profile {
     )
     private List<Language> languages;
 
-    @OneToMany
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_details_hobby",
+            joinColumns = {@JoinColumn(name = "user_id", nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "hobby_id", nullable = false)}
+    )
     private List<Hobby> hobbies;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
     @PrimaryKeyJoinColumn
     private Degree degree;
 
-    @OneToMany
-    @JoinColumn(name = "user_id", nullable = false)
-    @NotEmpty
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
     private List<Picture> pictures;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private List<InfoDetails> infoDetails;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_details_tag",
             joinColumns = {@JoinColumn(name = "user_id", nullable = false)},

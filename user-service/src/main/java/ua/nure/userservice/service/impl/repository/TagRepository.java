@@ -1,4 +1,4 @@
-package ua.nure.userservice.repository;
+package ua.nure.userservice.service.impl.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import ua.nure.userservice.model.Tag;

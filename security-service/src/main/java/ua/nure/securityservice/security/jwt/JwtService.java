@@ -1,14 +1,10 @@
 package ua.nure.securityservice.security.jwt;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.net.HttpHeaders;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +16,6 @@ import ua.nure.securityservice.responce.AuthenticationResponse;
 import ua.nure.securityservice.security.AmourlinkUserDetails;
 import ua.nure.securityservice.service.IUserService;
 
-import java.io.IOException;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -73,6 +68,7 @@ public class JwtService {
     public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("roles", user.getRoles());
+        claims.put("enabled", user.isEnabled());
 
         return generateToken(user, claims, expirationTime);
     }
@@ -140,26 +136,23 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyByte);
     }
 
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        final String authHeader = request.getHeader("refreshToken");
-        final String refreshToken;
-        final String userEmail;
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return;
-        }
-        refreshToken = authHeader.substring(7);
-        userEmail = extractUsername(refreshToken);
-        if (userEmail != null) {
-            User user = userService.findUser(userEmail);
-            AmourlinkUserDetails userDetails = new AmourlinkUserDetails(user);
-            if (validateToken(refreshToken, userDetails)) {
-                String accessToken = generateToken(user);
-                AuthenticationResponse authResponse = AuthenticationResponse.builder()
-                        .accessToken(accessToken)
-                        .refreshToken(refreshToken)
-                        .build();
-                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
-            }
-        }
+    public AuthenticationResponse refreshToken(String refreshToken) {
+        final String userEmail = extractUsername(refreshToken);
+
+        if (userEmail == null)
+            return null;
+        User user = userService.findUser(userEmail);
+        AmourlinkUserDetails userDetails = new AmourlinkUserDetails(user);
+
+        if (!validateToken(refreshToken, userDetails))
+            return null;
+        String accessToken = generateToken(user);
+        AuthenticationResponse authResponse = AuthenticationResponse.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+        return authResponse;
+
+
     }
 }

@@ -1,7 +1,6 @@
 package ua.nure.userservice.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ua.nure.userservice.model.dto.mapper.InfoMapper;
 
 import ua.nure.userservice.resolver.UserId;
-import ua.nure.userservice.responce.ResponseBody;
+import ua.nure.userservice.controller.responce.ResponseBody;
 import ua.nure.userservice.service.IInfoService;
 
 import java.util.UUID;
@@ -33,7 +32,6 @@ public class InfoController {
        return ResponseEntity.ok(responseBody);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/get-all")
     public ResponseEntity<ResponseBody> findAllInfo() {
         ResponseBody responseBody = new ResponseBody(

@@ -1,9 +1,6 @@
 package ua.nure.securityservice.controller;
 
 
-import com.google.api.client.auth.oauth2.RefreshTokenRequest;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ua.nure.securityservice.exception.AccountTypeException;
+import ua.nure.securityservice.request.RefreshRequest;
 import ua.nure.securityservice.responce.AuthenticationResponse;
 import ua.nure.securityservice.responce.ResponseBody;
 import ua.nure.securityservice.security.jwt.JwtAuthenticationRequest;
@@ -21,7 +19,6 @@ import ua.nure.securityservice.security.jwt.JwtService;
 import ua.nure.securityservice.security.oauth2.FacebookTokenVerifierService;
 import ua.nure.securityservice.security.oauth2.GoogleTokenVerifierService;
 
-import java.io.IOException;
 import java.security.GeneralSecurityException;
 
 @RestController
@@ -63,8 +60,12 @@ public class LoginController {
     }
 
     @PostMapping("/refresh-token")
-    public void refreshToken(HttpServletResponse response,
-                             HttpServletRequest request) throws IOException {
-        jwtService.refreshToken(request, response);
+    public ResponseEntity<ResponseBody> refreshToken(
+            @RequestBody RefreshRequest refreshRequest
+    ) {
+        ResponseBody responseBody = new ResponseBody(
+                jwtService.refreshToken(refreshRequest.getRefreshToken())
+        );
+        return ResponseEntity.ok(responseBody);
     }
 }

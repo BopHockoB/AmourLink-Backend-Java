@@ -34,7 +34,7 @@ public class SecurityServiceApplication {
                     .build();
             try {
                 userService.createUser(admin);
-                userService.unassignRole(admin.getEmail() ,Role.RoleEnum.INCOMPLETE_USER.name());
+                userService.unassignRole(admin.getEmail(), Role.RoleEnum.INCOMPLETE_USER.name());
             } catch (UserAlreadyExistsException e) {
                 log.warn("Mock user {} already exists", admin.getEmail());
             } finally {

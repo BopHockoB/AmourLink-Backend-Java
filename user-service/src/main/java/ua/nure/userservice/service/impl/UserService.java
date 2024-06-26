@@ -8,7 +8,7 @@ import ua.nure.userservice.exception.RoleNotFoundException;
 import ua.nure.userservice.exception.UserNotFoundException;
 import ua.nure.userservice.model.Role;
 import ua.nure.userservice.model.User;
-import ua.nure.userservice.repository.UserRepository;
+import ua.nure.userservice.service.impl.repository.UserRepository;
 import ua.nure.userservice.service.IRoleService;
 import ua.nure.userservice.service.IUserService;
 

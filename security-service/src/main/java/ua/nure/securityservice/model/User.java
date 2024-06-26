@@ -32,7 +32,7 @@ public class User {
     private Date createdAt;
 
     @ManyToMany(fetch = FetchType.EAGER,
-                cascade = { CascadeType.PERSIST,
+                cascade = {CascadeType.PERSIST,
                     CascadeType.MERGE})
     @JoinTable(
             name = "user_role",

@@ -8,7 +8,6 @@ import ua.nure.userservice.model.InfoDetails;
 import ua.nure.userservice.model.compositePk.InfoDetailsKey;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 
@@ -16,9 +15,9 @@ import java.util.UUID;
 public interface InfoDetailsRepository extends JpaRepository<InfoDetails, InfoDetailsKey> {
 //    List<InfoDetails> findByIdAnswerId(UUID answerId);
 //    List<InfoDetails> findByIdInfoId(UUID infoId);
-    @Query("SELECT i " +
-            "FROM InfoDetails i " +
-            "JOIN FETCH i.profile p" +
-            "   WHERE i.infoDetailsId.userId = :userId")
+@Query("SELECT i " +
+        "FROM InfoDetails i " +
+        "JOIN FETCH i.profile p " +
+        "WHERE i.infoDetailsId.userId = :userId")
     List<InfoDetails> findByIdUserId(@Param("userId") UUID userId);
 }

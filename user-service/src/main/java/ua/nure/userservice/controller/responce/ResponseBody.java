@@ -1,4 +1,4 @@
-package ua.nure.userservice.responce;
+package ua.nure.userservice.controller.responce;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

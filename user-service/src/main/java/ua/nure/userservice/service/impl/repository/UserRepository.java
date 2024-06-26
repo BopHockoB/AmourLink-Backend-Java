@@ -1,4 +1,4 @@
-package ua.nure.userservice.repository;
+package ua.nure.userservice.service.impl.repository;
 
 
 

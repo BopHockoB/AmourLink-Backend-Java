@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ua.nure.userservice.model.Role;
-import ua.nure.userservice.repository.RoleRepository;
+import ua.nure.userservice.service.impl.repository.RoleRepository;
 import ua.nure.userservice.service.IRoleService;
 
 

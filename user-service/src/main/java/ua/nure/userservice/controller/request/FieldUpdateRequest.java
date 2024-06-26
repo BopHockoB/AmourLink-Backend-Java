@@ -1,4 +1,4 @@
-package ua.nure.userservice.request;
+package ua.nure.userservice.controller.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PictureSwapRequest {
-    private UUID firstPictureId;
-    private UUID secondPictureId;
+@Builder
+public class FieldUpdateRequest {
+    private UUID id;
+    private String value;
 }

@@ -46,7 +46,7 @@ public class GoogleTokenVerifierService {
      * @param idTokenString The Google ID token string to retrieve the token for.
      * @return The token for the given Google ID token string.
      */
-    public String getToken(String idTokenString) throws AccountTypeException {
+    public AuthenticationResponse getToken(String idTokenString) throws AccountTypeException {
         log.info("Getting token for idTokenString: {}", idTokenString);
 
         var payload = verify(idTokenString);
@@ -71,7 +71,12 @@ public class GoogleTokenVerifierService {
             );
         }
 
-        return jwtService.generateToken(user);
+        return  AuthenticationResponse.builder()
+                .accessToken(jwtService.generateToken(user))
+                .refreshToken(jwtService.generateRefreshToken(user))
+                .build();
+
+
     }
 
     public GoogleIdToken.Payload verify(String idTokenString) {

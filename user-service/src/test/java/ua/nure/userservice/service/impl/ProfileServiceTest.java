@@ -12,7 +12,7 @@
 //import ua.nure.userservice.exception.ProfileAlreadyExistsException;
 //import ua.nure.userservice.model.Profile;
 //import ua.nure.securityservice.model.User;
-//import ua.nure.userservice.repository.ProfileRepository;
+//import ua.nure.userservice.service.impl.repository.ProfileRepository;
 //
 //import java.util.Optional;
 //import java.util.UUID;

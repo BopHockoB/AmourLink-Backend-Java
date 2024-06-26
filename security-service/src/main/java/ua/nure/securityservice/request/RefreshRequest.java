@@ -1,22 +1,14 @@
-package ua.nure.securityservice.responce;
+package ua.nure.securityservice.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class AuthenticationResponse implements Serializable {
-    @JsonProperty("access_token")
-    private String accessToken;
-
+public class RefreshRequest {
     @JsonProperty("refresh_token")
     private String refreshToken;
-
 }
