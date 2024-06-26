@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   mysql:
-    image: mysql:5.7.4
+    image: mysql:latest
     environment:
       MYSQL_HOST: 'mysql'
       MYSQL_DATABASE: 'amourlink'
@@ -14,10 +14,10 @@ services:
     networks:
       - app-network
 
-  discovery:
-    image: danyloz/amourlink-java-media-service:latest
+  security-service:
+    image: danyloz/amourlink-java-security-service:latest
     ports:
-      - "8761:8761"
+      - "8081:8081"
     networks:
       - app-network
     environment:
@@ -25,8 +25,7 @@ services:
 
   media-service:
     image: danyloz/amourlink-java-media-service:latest
-    depends_on:
-      - discovery
+
     ports:
       - "8070:8070"
     networks:
@@ -37,10 +36,9 @@ services:
   user-service:
     image: danyloz/amourlink-java-user-service:latest
     depends_on:
-      - discovery
       - media-service
     ports:
-      - "8090:8090"
+      - "8080:8080"
     networks:
       - app-network
     environment:

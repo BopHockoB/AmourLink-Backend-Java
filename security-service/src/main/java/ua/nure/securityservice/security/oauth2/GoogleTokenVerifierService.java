@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import ua.nure.securityservice.exception.AccountTypeException;
 import ua.nure.securityservice.exception.UserNotFoundException;
 import ua.nure.securityservice.model.User;
+import ua.nure.securityservice.responce.AuthenticationResponse;
 import ua.nure.securityservice.security.jwt.JwtService;
 import ua.nure.securityservice.service.IUserService;
 import ua.nure.securityservice.service.impl.UserService;
@@ -70,7 +71,7 @@ public class GoogleTokenVerifierService {
             );
         }
 
-        return jwtService.generateToken(user.getEmail());
+        return jwtService.generateToken(user);
     }
 
     public GoogleIdToken.Payload verify(String idTokenString) {

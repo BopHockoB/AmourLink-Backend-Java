@@ -1,6 +1,9 @@
 package ua.nure.securityservice.controller;
 
 
+import com.google.api.client.auth.oauth2.RefreshTokenRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,12 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ua.nure.securityservice.exception.AccountTypeException;
+import ua.nure.securityservice.responce.AuthenticationResponse;
 import ua.nure.securityservice.responce.ResponseBody;
 import ua.nure.securityservice.security.jwt.JwtAuthenticationRequest;
 import ua.nure.securityservice.security.jwt.JwtService;
 import ua.nure.securityservice.security.oauth2.FacebookTokenVerifierService;
 import ua.nure.securityservice.security.oauth2.GoogleTokenVerifierService;
 
+import java.io.IOException;
 import java.security.GeneralSecurityException;
 
 @RestController
@@ -33,7 +38,14 @@ public class LoginController {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
         if (authentication.isAuthenticated()){
-            return ResponseEntity.ok(new ResponseBody(jwtService.generateToken(authRequest.getEmail())));
+            AuthenticationResponse authenticationResponse =
+                    AuthenticationResponse.builder()
+                            .accessToken(jwtService.generateToken(authRequest.getEmail()))
+                            .refreshToken(jwtService.generateRefreshToken(authRequest.getEmail()
+                            ))
+                            .build();
+
+            return ResponseEntity.ok(new ResponseBody(authenticationResponse));
         }
         else {
             throw new RuntimeException("Invalid user credentials");
@@ -48,5 +60,11 @@ public class LoginController {
     @PostMapping("/facebook")
     public ResponseEntity<ResponseBody> getTokenForFacebookUser(@RequestBody String token) throws AccountTypeException, GeneralSecurityException {
         return ResponseEntity.ok(new ResponseBody(facebookTokenVerifierService.getToken(token)));
+    }
+
+    @PostMapping("/refresh-token")
+    public void refreshToken(HttpServletResponse response,
+                             HttpServletRequest request) throws IOException {
+        jwtService.refreshToken(request, response);
     }
 }

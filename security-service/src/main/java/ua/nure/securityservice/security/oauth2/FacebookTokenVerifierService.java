@@ -8,6 +8,7 @@ import ua.nure.securityservice.client.FacebookClient;
 import ua.nure.securityservice.exception.AccountTypeException;
 import ua.nure.securityservice.exception.UserNotFoundException;
 import ua.nure.securityservice.model.User;
+import ua.nure.securityservice.responce.AuthenticationResponse;
 import ua.nure.securityservice.security.jwt.JwtService;
 import ua.nure.securityservice.service.impl.UserService;
 
@@ -16,7 +17,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor()
+@RequiredArgsConstructor
 public class FacebookTokenVerifierService {
 
     private final FacebookClient facebookClient;
@@ -29,7 +30,7 @@ public class FacebookTokenVerifierService {
     @Value("${facebook.app.secret}")
     private String appSecret;
 
-    public String getToken(String userAccessToken) throws GeneralSecurityException, AccountTypeException {
+    public AuthenticationResponse getToken(String userAccessToken) throws GeneralSecurityException, AccountTypeException {
         String userEmail = verify(userAccessToken);
         User user = findUser(userEmail);
 
@@ -50,7 +51,10 @@ public class FacebookTokenVerifierService {
                     "User " + userEmail + " account type doesn't match to " + User.AccountType.FACEBOOK
             );
 
-        return jwtService.generateToken(user.getEmail());
+       return AuthenticationResponse.builder()
+                .accessToken(jwtService.generateToken(user))
+                .refreshToken(jwtService.generateRefreshToken(user))
+                .build();
     }
 
     public String verify(String userAccessToken) throws GeneralSecurityException {

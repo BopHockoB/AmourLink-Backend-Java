@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ua.nure.userservice.model.Tag;
 import ua.nure.userservice.model.dto.mapper.ProfileMapper;
+import ua.nure.userservice.request.PictureSwapRequest;
 import ua.nure.userservice.resolver.UserId;
 import ua.nure.userservice.model.Profile;
 import ua.nure.userservice.model.dto.ProfileDTO;
@@ -53,7 +54,7 @@ public class ProfileController {
         );
 
         ResponseBody responseBody = new ResponseBody(profileDTOList);
-        return new ResponseEntity<>(responseBody, HttpStatus.FOUND);
+        return ResponseEntity.ok(responseBody);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN') or " +
@@ -106,10 +107,12 @@ public class ProfileController {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER', 'ROLE_PREMIUM_USER')")
     @PutMapping("/swap-pictures")
-    public void swapPicturePositions(@RequestBody UUID pictureId1,
-                                     @RequestBody UUID pictureId2,
+    public void swapPicturePositions(@RequestBody PictureSwapRequest pictureSwapRequest,
                                      @UserId UUID userId){
-        pictureService.swapPositions(pictureId1, pictureId2, userId);
+        pictureService.swapPositions(
+                pictureSwapRequest.getFirstPictureId(),
+                pictureSwapRequest.getSecondPictureId(),
+                userId);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER', 'ROLE_PREMIUM_USER')")

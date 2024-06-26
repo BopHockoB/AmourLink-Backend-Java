@@ -11,8 +11,9 @@ spring:
     name: security-service
 
   jwt:
-    jwtExpirationInMs: 1800000
+    jwtExpirationInMs: 86400000
     secret: 36763979244226452948404D635164546A576D5A7134D43777217A25432A462D
+    jwtRefreshExpirationInMs: 604800000
 
   kafka:
     bootstrap-servers: kafka:9092

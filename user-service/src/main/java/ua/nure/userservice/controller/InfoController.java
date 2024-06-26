@@ -30,7 +30,7 @@ public class InfoController {
         ResponseBody responseBody = new ResponseBody(
                 infoMapper.infoToInfoDTO(infoService.findInfoById(infoId))
         );
-        return new ResponseEntity<>(responseBody, HttpStatus.FOUND);
+       return ResponseEntity.ok(responseBody);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -39,7 +39,7 @@ public class InfoController {
         ResponseBody responseBody = new ResponseBody(
                 infoMapper.infoListToInfoDTOList(infoService.findAllInfo())
         );
-        return new ResponseEntity<>(responseBody, HttpStatus.FOUND);
+       return ResponseEntity.ok(responseBody);
     }
     @PreAuthorize("hasRole('ROLE_ADMIN') or " +
             "{#userId == #userIdToCheck and hasAnyRole('ROLE_USER', 'ROLE_PREMIUM_USER')}")
@@ -48,7 +48,7 @@ public class InfoController {
         ResponseBody responseBody = new ResponseBody(
                 infoMapper.infoDetailsListToInfoDetailsDTOList(infoService.findInfoDetailsByUserId(userId))
         );
-        return new ResponseEntity<>(responseBody, HttpStatus.FOUND);
+       return ResponseEntity.ok(responseBody);
     }
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/details/get-all")
@@ -56,7 +56,7 @@ public class InfoController {
         ResponseBody responseBody = new ResponseBody(
                 infoMapper.infoDetailsListToInfoDetailsDTOList(infoService.findAllInfoDetails())
         );
-        return new ResponseEntity<>(responseBody, HttpStatus.FOUND);
+       return ResponseEntity.ok(responseBody);
     }
 
 }
