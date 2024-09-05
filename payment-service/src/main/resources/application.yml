@@ -3,5 +3,5 @@ spring:
     name: payment-service
 
 stripe:
-  secret-key: sk_test_51PI7JFRqseUIBF1cTtmBhrf7FZn1CPCC6VlTypj25ieodRvxfP4RaraVgx0bV4zKK9wyNaYu3v6TsBXp991LST9500pDCxdAna
-  publishable-key: pk_test_51PI7JFRqseUIBF1c2rADo23YiwYRLI0w8miDI6S6UxcmByfH7tYU0fXU1SbqC7Fx3pVoENFyMihtszUjlacD58Bx00dO2cvSpo
+  secret-key: -
+  publishable-key: -
