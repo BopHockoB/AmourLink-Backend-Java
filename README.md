@@ -2,17 +2,17 @@
   <h1>AmourLink-Backend-Java</h1>
   <p align="center">The robust, scalable Java microservices backbone for modern social and dating applications.</p>
   <p align="center">
-    <a href="https://github.com/YOUR_USERNAME/AmourLink-Backend-Java/actions/workflows/ci.yml">
-      <img src="https://github.com/YOUR_USERNAME/AmourLink-Backend-Java/actions/workflows/ci.yml/badge.svg" alt="Build Status">
+    <a href="https://github.com/BopHockoB/AmourLink-Backend-Java/actions/workflows/ci.yml">
+      <img src="https://github.com/BopHockoB/AmourLink-Backend-Java/actions/workflows/ci.yml/badge.svg" alt="Build Status">
     </a>
-    <a href="https://github.com/YOUR_USERNAME/AmourLink-Backend-Java/blob/main/LICENSE">
-      <img src="https://img.shields.io/github/license/YOUR_USERNAME/AmourLink-Backend-Java?style=flat-square" alt="License">
+    <a href="https://github.com/BopHockoB/AmourLink-Backend-Java/blob/main/LICENSE">
+      <img src="https://img.shields.io/github/license/BopHockoB/AmourLink-Backend-Java?style=flat-square" alt="License">
     </a>
-    <a href="https://github.com/YOUR_USERNAME/AmourLink-Backend-Java/pulls">
+    <a href="https://github.com/BopHockoB/AmourLink-Backend-Java/pulls">
       <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" alt="PRs Welcome">
     </a>
-    <a href="https://github.com/YOUR_USERNAME/AmourLink-Backend-Java">
-      <img src="https://img.shields.io/github/stars/YOUR_USERNAME/AmourLink-Backend-Java?style=social" alt="GitHub stars">
+    <a href="https://github.com/BopHockoB/AmourLink-Backend-Java">
+      <img src="https://img.shields.io/github/stars/BopHockoB/AmourLink-Backend-Java?style=social" alt="GitHub stars">
     </a>
   </p>
 </p>
