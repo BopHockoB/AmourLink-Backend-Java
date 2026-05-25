@@ -5,7 +5,7 @@
     <a href="https://github.com/BopHockoB/AmourLink-Backend-Java/actions/workflows/ci.yml">
       <img src="https://github.com/BopHockoB/AmourLink-Backend-Java/actions/workflows/ci.yml/badge.svg" alt="Build Status">
     </a>
-    <a href="https://github.com/BopHockoB/AmourLink-Backend-Java/blob/main/LICENSE">
+    <a href="https://github.com/BopHockoB/AmourLink-Backend-Java/blob/master/LICENSE">
       <img src="https://img.shields.io/github/license/BopHockoB/AmourLink-Backend-Java?style=flat-square" alt="License">
     </a>
     <a href="https://github.com/BopHockoB/AmourLink-Backend-Java/pulls">
